@@ -44,6 +44,7 @@ bin/bundler-audit
 bin/importmap audit
 bin/ci                         # full local CI (config/ci.rb)
 bin/rails import:sources       # import sources from vendor/db/dpx5db.sl3
+bin/rails import:groups        # import food groups from vendor/db/dpx5db.sl3
 ```
 
 GitHub CI (`.github/workflows/ci.yml`): brakeman, bundler-audit, importmap audit, rubocop, tests and system tests. Before committing, run at least `bin/rubocop` and `bin/rails test`.
@@ -52,21 +53,21 @@ GitHub CI (`.github/workflows/ci.yml`): brakeman, bundler-audit, importmap audit
 
 Associations are based on string codes from the source database, not on `id`:
 
-- `Source` (`code`, `name_en`, `name_ukr`) — data source; `has_many :foods, primary_key: :code, foreign_key: :source_code`
-- `Group` (`source_code`, `code`, `name_en`, `name_ukr`) — food group; the group code is unique within a source. No associations declared yet.
-- `Food` (`code`, `source_code`, `group_code`, `name_*`, `description_*`, `comment_*` for `en`/`ukr`) — `belongs_to :source, foreign_key: :source_code, primary_key: :code`
+- `Source` (`code`, `group_type`, `name_en`, `name_ukr`) — data source; `group_type` is the food group type it uses (`GPM`, `GPS`, `GPT`, `GPU`, `GPE`, `G10`), `nil` for sources without groups. `has_many :foods` (by `source_code`), `has_many :groups` (by `group_type`)
+- `Group` (`group_type`, `code`, `name_en`, `name_ukr`) — food group; belongs to a group type, not to a source (one type is shared by several sources). The code is unique only within a type (unique index on `group_type, code`). `has_many :sources` (by `group_type`), `has_many :foods` (composite key `[group_type, code]` ↔ `[group_type, group_code]`)
+- `Food` (`code`, `source_code`, `group_type`, `group_code`, `name_*`, `description_*`, `comment_*` for `en`/`ukr`) — `belongs_to :source`; `belongs_to :group, optional: true` via composite key. `group_type` is denormalized from the source; `group_code` is `nil` for foods without a group
 
 Conventions:
 - Translatable fields are pairs of columns with `_en` / `_ukr` suffixes; follow the same pattern for new text fields.
-- Declare new associations with explicit code-based `primary_key:` / `foreign_key:`.
-- There are no indexes or uniqueness constraints on codes yet.
+- Declare new associations with explicit code-based `primary_key:` / `foreign_key:` (arrays for composite keys).
+- Indexes: `sources.group_type`, unique `groups(group_type, code)`, `foods(group_type, group_code)`. Other codes have no indexes or uniqueness constraints yet.
 
 ## Import from dpx5db.sl3
 
-Rake tasks in `lib/tasks/import.rake` (namespace `import`) open the source database read-only via the `sqlite3` gem, upsert with `find_or_initialize_by(code:)` inside a transaction, and strip whitespace from values. Only `import:sources` is implemented so far.
+Rake tasks in `lib/tasks/import.rake` (namespace `import`) open the source database read-only via the `sqlite3` gem, upsert with `find_or_initialize_by(code:)` inside a transaction, and strip whitespace from values. Implemented: `import:sources` (also sets `group_type`) and `import:groups`. There is no foods import task yet; when added, it must set `group_type` from the food's source and store an empty `GroupCode` as `nil`.
 
 Main tables in the source database:
-- `reference` (`Code`, `RefType`, `Name`) — lookup tables; `RefType = 'SRC'` — sources (27). Other types: `DSD`, `G10`, `GLN`, `GP*`, `MPZ`, `PTN`, `WRC`.
+- `reference` (`Code`, `RefType`, `Name`) — lookup tables; `RefType = 'SRC'` — sources (27). `RefType = 'GLN'` maps a source code (`Code`) to its group type (`Name`); 8 sources have no `GLN` row and their foods have no group. Group types `G10`, `GPE`, `GPM`, `GPS`, `GPT`, `GPU` are themselves `RefType` values holding the groups (382 in total). Other types: `DSD`, `MPZ`, `PTN`, `WRC`.
 - `food` (~33k) — `DataSource`, `FoodCode`, `GroupCode`, `Name`, `Description`, `Comment`, …
 - `food_nutr` (~1.28M) — nutrient values (`FoodCode`, `NutrId`, `NutrValue`)
 - `nutrient` (370) — nutrient definitions
