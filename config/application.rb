@@ -35,5 +35,9 @@ module SitoLogic
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # The interface is Ukrainian only (see docs/design-system.md).
+    config.i18n.available_locales = [ :uk ]
+    config.i18n.default_locale = :uk
   end
 end

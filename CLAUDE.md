@@ -75,6 +75,12 @@ Main tables in the source database:
 
 The source database contains English names only; `*_ukr` fields are filled separately.
 
+## UI and design
+
+UI rules (palette, nutrient colours, navbar, buttons, forms, modals, tables) are in `docs/design-system.md`; the Bootstrap theme is `app/assets/stylesheets/theme.css` (CSS variable overrides, no Sass). Follow them for every new view and update both files together when a rule changes.
+
+The interface language is Ukrainian only (no locale switch); UI strings go through I18n (`uk`). Data keeps the `_en` / `_ukr` column pairs.
+
 ## Misc
 
 - The only routes are `root "dashboard#index"` (placeholder) and `/up`.

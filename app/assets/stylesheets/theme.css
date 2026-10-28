@@ -1,0 +1,347 @@
+/*
+ * SitoLogic theme on top of the vendored, precompiled Bootstrap 5.3.
+ * Bootstrap is not built from Sass here, so the theme overrides CSS variables.
+ * Components that hardcode colours in their own variables (buttons, pagination,
+ * form controls, etc.) are overridden explicitly below.
+ * See docs/design-system.md for the rules behind these values.
+ */
+
+/* Tokens */
+:root,
+[data-bs-theme=light] {
+  --sl-page-bg: #f7f8f6;
+  --sl-surface-muted: #f1f3f2;
+  --sl-input-border: #cdd4d0;
+  --sl-focus-border: #7bbdb6;
+  --sl-accent: #f08c3a;
+
+  --sl-protein: #d6336c;
+  --sl-fat: #e8a317;
+  --sl-carbs: #1c7ed6;
+  --sl-fiber: #37b24d;
+
+  --bs-primary: #0f766e;
+  --bs-primary-rgb: 15, 118, 110;
+  --bs-secondary: #5f6b68;
+  --bs-secondary-rgb: 95, 107, 104;
+  --bs-success: #2b7a3b;
+  --bs-success-rgb: 43, 122, 59;
+  --bs-info: #1098ad;
+  --bs-info-rgb: 16, 152, 173;
+  --bs-warning: #e8a317;
+  --bs-warning-rgb: 232, 163, 23;
+  --bs-danger: #c92a2a;
+  --bs-danger-rgb: 201, 42, 42;
+  --bs-light: #f1f3f2;
+  --bs-light-rgb: 241, 243, 242;
+  --bs-dark: #1f2a28;
+  --bs-dark-rgb: 31, 42, 40;
+
+  --bs-primary-text-emphasis: #0b4d47;
+  --bs-primary-bg-subtle: #e0f2f0;
+  --bs-primary-border-subtle: #a7d8d2;
+  --bs-secondary-text-emphasis: #3a4341;
+  --bs-secondary-bg-subtle: #eef0ef;
+  --bs-secondary-border-subtle: #c9cfcd;
+  --bs-success-text-emphasis: #1f5e2a;
+  --bs-success-bg-subtle: #e3f4e6;
+  --bs-success-border-subtle: #a9d8b2;
+  --bs-info-text-emphasis: #0b5562;
+  --bs-info-bg-subtle: #ddf3f6;
+  --bs-info-border-subtle: #a1dce5;
+  --bs-warning-text-emphasis: #6b4a00;
+  --bs-warning-bg-subtle: #fdf0d5;
+  --bs-warning-border-subtle: #f5d48a;
+  --bs-danger-text-emphasis: #8e1d1d;
+  --bs-danger-bg-subtle: #fbe3e3;
+  --bs-danger-border-subtle: #efaaaa;
+
+  --bs-body-color: #1f2a28;
+  --bs-body-color-rgb: 31, 42, 40;
+  --bs-emphasis-color: #1f2a28;
+  --bs-secondary-color: rgba(31, 42, 40, 0.7);
+  --bs-tertiary-bg: #f1f3f2;
+  --bs-border-color: #e2e6e3;
+  --bs-border-color-translucent: rgba(31, 42, 40, 0.12);
+
+  --bs-link-color: #0f766e;
+  --bs-link-color-rgb: 15, 118, 110;
+  --bs-link-hover-color: #0b524c;
+  --bs-link-hover-color-rgb: 11, 82, 76;
+
+  --bs-border-radius-sm: 0.375rem;
+  --bs-border-radius: 0.5rem;
+  --bs-border-radius-lg: 0.75rem;
+
+  --bs-focus-ring-color: rgba(15, 118, 110, 0.25);
+}
+
+/* Base. --bs-body-bg stays white because inputs, cards and modals use it. */
+body {
+  background-color: var(--sl-page-bg);
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+  --bs-btn-font-weight: 500;
+}
+
+.btn-primary {
+  --bs-btn-bg: #0f766e;
+  --bs-btn-border-color: #0f766e;
+  --bs-btn-hover-bg: #0d635c;
+  --bs-btn-hover-border-color: #0d635c;
+  --bs-btn-focus-shadow-rgb: 15, 118, 110;
+  --bs-btn-active-bg: #0b524c;
+  --bs-btn-active-border-color: #0b524c;
+  --bs-btn-disabled-bg: #0f766e;
+  --bs-btn-disabled-border-color: #0f766e;
+}
+
+.btn-secondary {
+  --bs-btn-bg: #5f6b68;
+  --bs-btn-border-color: #5f6b68;
+  --bs-btn-hover-bg: #505a58;
+  --bs-btn-hover-border-color: #505a58;
+  --bs-btn-focus-shadow-rgb: 95, 107, 104;
+  --bs-btn-active-bg: #434c4a;
+  --bs-btn-active-border-color: #434c4a;
+  --bs-btn-disabled-bg: #5f6b68;
+  --bs-btn-disabled-border-color: #5f6b68;
+}
+
+.btn-success {
+  --bs-btn-bg: #2b7a3b;
+  --bs-btn-border-color: #2b7a3b;
+  --bs-btn-hover-bg: #24672f;
+  --bs-btn-hover-border-color: #24672f;
+  --bs-btn-focus-shadow-rgb: 43, 122, 59;
+  --bs-btn-active-bg: #1e5627;
+  --bs-btn-active-border-color: #1e5627;
+  --bs-btn-disabled-bg: #2b7a3b;
+  --bs-btn-disabled-border-color: #2b7a3b;
+}
+
+.btn-danger {
+  --bs-btn-bg: #c92a2a;
+  --bs-btn-border-color: #c92a2a;
+  --bs-btn-hover-bg: #ab2424;
+  --bs-btn-hover-border-color: #ab2424;
+  --bs-btn-focus-shadow-rgb: 201, 42, 42;
+  --bs-btn-active-bg: #8f1e1e;
+  --bs-btn-active-border-color: #8f1e1e;
+  --bs-btn-disabled-bg: #c92a2a;
+  --bs-btn-disabled-border-color: #c92a2a;
+}
+
+.btn-warning {
+  --bs-btn-color: #1f2a28;
+  --bs-btn-bg: #e8a317;
+  --bs-btn-border-color: #e8a317;
+  --bs-btn-hover-color: #1f2a28;
+  --bs-btn-hover-bg: #d4940f;
+  --bs-btn-hover-border-color: #d4940f;
+  --bs-btn-focus-shadow-rgb: 232, 163, 23;
+  --bs-btn-active-color: #1f2a28;
+  --bs-btn-active-bg: #bf850d;
+  --bs-btn-active-border-color: #bf850d;
+  --bs-btn-disabled-color: #1f2a28;
+  --bs-btn-disabled-bg: #e8a317;
+  --bs-btn-disabled-border-color: #e8a317;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #0f766e;
+  --bs-btn-border-color: #0f766e;
+  --bs-btn-hover-bg: #0f766e;
+  --bs-btn-hover-border-color: #0f766e;
+  --bs-btn-focus-shadow-rgb: 15, 118, 110;
+  --bs-btn-active-bg: #0d635c;
+  --bs-btn-active-border-color: #0d635c;
+  --bs-btn-disabled-color: #0f766e;
+  --bs-btn-disabled-border-color: #0f766e;
+}
+
+/* Quiet secondary action: light border, tinted hover instead of a solid fill */
+.btn-outline-secondary {
+  --bs-btn-color: #5f6b68;
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: var(--sl-input-border);
+  --bs-btn-hover-color: #1f2a28;
+  --bs-btn-hover-bg: var(--sl-surface-muted);
+  --bs-btn-hover-border-color: var(--sl-input-border);
+  --bs-btn-focus-shadow-rgb: 95, 107, 104;
+  --bs-btn-active-color: #1f2a28;
+  --bs-btn-active-bg: #e2e6e3;
+  --bs-btn-active-border-color: var(--sl-input-border);
+  --bs-btn-disabled-color: #5f6b68;
+  --bs-btn-disabled-border-color: var(--sl-input-border);
+}
+
+.btn-outline-danger {
+  --bs-btn-color: #c92a2a;
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: #efaaaa;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #c92a2a;
+  --bs-btn-hover-border-color: #c92a2a;
+  --bs-btn-focus-shadow-rgb: 201, 42, 42;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #ab2424;
+  --bs-btn-active-border-color: #ab2424;
+  --bs-btn-disabled-color: #c92a2a;
+  --bs-btn-disabled-border-color: #efaaaa;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+  border-color: var(--sl-input-border);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--sl-focus-border);
+  box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+.form-check-input:checked,
+.form-check-input[type=checkbox]:indeterminate {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.form-range::-webkit-slider-thumb {
+  background-color: var(--bs-primary);
+}
+
+.form-range::-moz-range-thumb {
+  background-color: var(--bs-primary);
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.input-group-text {
+  background-color: var(--sl-surface-muted);
+  border-color: var(--sl-input-border);
+  color: var(--bs-secondary);
+}
+
+.required-mark {
+  color: var(--bs-danger);
+}
+
+/* Navigation */
+.app-navbar {
+  --bs-navbar-color: #5f6b68;
+  --bs-navbar-hover-color: #1f2a28;
+  --bs-navbar-active-color: #0f766e;
+  --bs-navbar-brand-color: #0f766e;
+  --bs-navbar-brand-hover-color: #0b524c;
+  background-color: #fff;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.app-navbar .navbar-brand {
+  font-weight: 600;
+}
+
+.app-navbar .navbar-brand .bi {
+  color: var(--sl-accent);
+}
+
+@media (min-width: 992px) {
+  .app-navbar .nav-link.active {
+    box-shadow: inset 0 -2px 0 currentColor;
+  }
+}
+
+.nav-pills {
+  --bs-nav-pills-link-active-color: var(--bs-primary-text-emphasis);
+  --bs-nav-pills-link-active-bg: var(--bs-primary-bg-subtle);
+}
+
+.dropdown-menu {
+  --bs-dropdown-link-active-color: var(--bs-primary-text-emphasis);
+  --bs-dropdown-link-active-bg: var(--bs-primary-bg-subtle);
+}
+
+.list-group {
+  --bs-list-group-active-color: var(--bs-primary-text-emphasis);
+  --bs-list-group-active-bg: var(--bs-primary-bg-subtle);
+  --bs-list-group-active-border-color: var(--bs-primary-border-subtle);
+}
+
+.pagination {
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+  --bs-pagination-active-bg: var(--bs-primary);
+  --bs-pagination-active-border-color: var(--bs-primary);
+}
+
+/* Surfaces */
+.card {
+  --bs-card-border-color: var(--bs-border-color);
+  --bs-card-border-radius: var(--bs-border-radius-lg);
+  --bs-card-inner-border-radius: calc(var(--bs-border-radius-lg) - 1px);
+  --bs-card-cap-bg: transparent;
+}
+
+.modal {
+  --bs-modal-border-color: transparent;
+  --bs-modal-border-radius: var(--bs-border-radius-lg);
+  --bs-modal-inner-border-radius: var(--bs-border-radius-lg);
+  --bs-modal-header-border-color: var(--bs-border-color);
+  --bs-modal-footer-border-color: var(--bs-border-color);
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+.progress,
+.progress-stacked {
+  --bs-progress-bar-bg: var(--bs-primary);
+}
+
+/* Tables */
+.table > thead {
+  --bs-table-bg: var(--sl-surface-muted);
+  --bs-table-color: var(--bs-secondary);
+  font-size: 0.8125rem;
+}
+
+.table > thead th {
+  font-weight: 600;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.code {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--bs-font-monospace);
+  font-size: 0.875em;
+}
+
+/* Nutrients: fixed colours, the same on every chart and marker */
+.text-protein { color: var(--sl-protein) !important; }
+.text-fat     { color: var(--sl-fat) !important; }
+.text-carbs   { color: var(--sl-carbs) !important; }
+.text-fiber   { color: var(--sl-fiber) !important; }
+
+.bg-protein { background-color: var(--sl-protein) !important; }
+.bg-fat     { background-color: var(--sl-fat) !important; }
+.bg-carbs   { background-color: var(--sl-carbs) !important; }
+.bg-fiber   { background-color: var(--sl-fiber) !important; }
+
+.text-accent { color: var(--sl-accent) !important; }
