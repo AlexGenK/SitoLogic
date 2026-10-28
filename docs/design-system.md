@@ -69,6 +69,15 @@ Always a soft badge with text:
 | Within norm | У нормі | `badge bg-success-subtle text-success-emphasis` |
 | Above norm | Перевищення | `badge bg-danger-subtle text-danger-emphasis` |
 
+## Logo
+
+A balance ring: a primary ring with one accent segment (a balanced plate / nutrient split) and a primary leaf in the centre.
+
+- Files: `public/icon.svg` (favicon, adapts to dark browser UI), `public/icon.png` (512 px, white background, for `apple-touch-icon` and PWA), `app/views/application/_logo.html.erb` (inline SVG for the UI, sized by `.app-logo`).
+- Colours are fixed: primary `#0f766e`, accent `#f08c3a`; on dark backgrounds the primary becomes `#2db5a8`. Do not recolour, outline or add shadows.
+- Minimum size 16 px. Keep clear space of at least a quarter of the logo width around it.
+- The wordmark «SitoLogic» is set in the UI font, semibold, primary colour, to the right of the ring.
+
 ## Typography and shape
 
 - Bootstrap system font stack (covers Cyrillic). Base size 1rem.
@@ -82,7 +91,7 @@ Always a soft badge with text:
 ## Layout and navigation
 
 - Top navbar: `navbar navbar-expand-lg app-navbar sticky-top`, white with a bottom border.
-  - Left: brand (leaf icon in accent + "SitoLogic" in primary).
+  - Left: brand — `render "logo"` + «SitoLogic» in primary.
   - Main sections, at most five: Меню · Раціони · Продукти · Довідники ▾ (Джерела, Групи, Нутрієнти).
   - The active link gets `.active` and `aria-current="page"`; it is shown in primary with a 2px underline.
   - Right: the user menu. No language switch while the interface is Ukrainian only.

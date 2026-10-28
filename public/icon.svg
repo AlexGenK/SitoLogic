@@ -1,3 +1,12 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .ring { stroke: #0f766e; }
+    .leaf { fill: #0f766e; }
+    @media (prefers-color-scheme: dark) { .ring { stroke: #2db5a8; } .leaf { fill: #2db5a8; } }
+  </style>
+  <g transform="rotate(-90 32 32)" fill="none" stroke-width="10">
+    <circle class="ring" cx="32" cy="32" r="22" stroke-dasharray="101 37.2"/>
+    <circle cx="32" cy="32" r="22" stroke="#f08c3a" stroke-dasharray="29 109.2" stroke-dashoffset="-105"/>
+  </g>
+  <path class="leaf" d="M32 21C39 25 39 35 32 43C25 35 25 25 32 21Z"/>
 </svg>

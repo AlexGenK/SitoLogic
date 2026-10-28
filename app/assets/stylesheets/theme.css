@@ -250,11 +250,16 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 }
 
 .app-navbar .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 600;
 }
 
-.app-navbar .navbar-brand .bi {
-  color: var(--sl-accent);
+.app-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
 }
 
 @media (min-width: 992px) {
