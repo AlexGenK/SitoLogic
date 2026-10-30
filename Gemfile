@@ -16,6 +16,8 @@ gem "turbo-rails"
 gem "stimulus-rails"
 # Ukrainian translations for validation messages, dates and numbers [https://github.com/svenfuchs/rails-i18n]
 gem "rails-i18n", "~> 8.0"
+# Pagination [https://github.com/ddnexus/pagy]
+gem "pagy", "~> 43.8"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

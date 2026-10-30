@@ -83,6 +83,7 @@
     <orderEntry type="library" scope="PROVIDED" name="net-smtp (v0.5.1, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.5, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.19.4, ruby-4.0.7-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pagy (v43.8.1, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v2.2.0, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.3.12.0, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pp (v0.6.4, ruby-4.0.7-p0) [gem]" level="application" />
@@ -116,7 +117,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v3.7.0, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.1, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="TEST" name="selenium-webdriver (v4.51.0, ruby-4.0.7-p0) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v2.10.0, ruby-4.0.7-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v2.10.1, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stimulus-rails (v1.3.4, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.5.0, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="timeout (v0.6.1, ruby-4.0.7-p0) [gem]" level="application" />
@@ -133,6 +134,7 @@
     <orderEntry type="library" scope="PROVIDED" name="websocket-driver (v0.8.2, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket-extensions (v0.1.5, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v3.2.0, ruby-4.0.7-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="yaml (v0.4.0, ruby-4.0.7-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.8.3, ruby-4.0.7-p0) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">

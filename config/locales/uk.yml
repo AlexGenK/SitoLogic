@@ -2,3 +2,10 @@ uk:
   nav:
     foods: "Продукти"
     toggle: "Перемкнути навігацію"
+  foods:
+    index:
+      title: "Продукти"
+      source_code: "Джерело"
+      code: "Код"
+      name: "Назва"
+      empty: "Продуктів ще немає."

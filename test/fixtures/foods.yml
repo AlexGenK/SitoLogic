@@ -1,22 +1,22 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  code: MyString
-  name_en: MyString
+  code: "09003"
+  name_en: Apples, raw
   description_en: MyText
   comment_en: MyText
-  name_ukr: MyString
+  name_ukr: Яблуко
   description_ukr: MyText
   comment_ukr: MyText
   source_code: MyString
   group_code: MyString
 
 two:
-  code: MyString
-  name_en: MyString
+  code: "09040"
+  name_en: Bananas, raw
   description_en: MyText
   comment_en: MyText
-  name_ukr: MyString
+  name_ukr: Банан
   description_ukr: MyText
   comment_ukr: MyText
   source_code: MyString
