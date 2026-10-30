@@ -1,6 +1,17 @@
 <div class="container-xl py-4">
   <h1 class="h3 mb-3"><%= t(".title") %></h1>
 
+  <%= form_with url: foods_path, method: :get, class: "row g-2 mb-3", role: "search" do |f| %>
+    <div class="col-sm-8 col-lg-5">
+      <%= f.search_field :q, value: @query, class: "form-control",
+            placeholder: t(".search_placeholder"), aria: { label: t(".search_label") } %>
+    </div>
+    <div class="col-auto d-flex gap-2">
+      <%= f.submit t(".search"), name: nil, class: "btn btn-primary" %>
+      <%= link_to t(".reset"), foods_path, class: "btn btn-outline-secondary" if @query.present? %>
+    </div>
+  <% end %>
+
   <% if @foods.any? %>
     <div class="table-responsive">
       <table class="table table-hover align-middle">
@@ -25,6 +36,6 @@
 
     <%== @pagy.series_nav(:bootstrap) %>
   <% else %>
-    <p class="text-body-secondary"><%= t(".empty") %></p>
+    <p class="text-body-secondary"><%= t(@query.present? ? ".not_found" : ".empty") %></p>
   <% end %>
 </div>

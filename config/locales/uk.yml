@@ -9,3 +9,8 @@ uk:
       code: "Код"
       name: "Назва"
       empty: "Продуктів ще немає."
+      search_label: "Пошук за назвою"
+      search_placeholder: "Частина назви"
+      search: "Знайти"
+      reset: "Скинути"
+      not_found: "Нічого не знайдено."
