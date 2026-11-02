@@ -47,7 +47,7 @@
             <tr>
               <td class="code"><%= food.source_code %></td>
               <td class="code"><%= food.code %></td>
-              <td><%= food.name_ukr %></td>
+              <td><%= link_to food.name_ukr, food_path(food, list_params) %></td>
             </tr>
           <% end %>
         </tbody>

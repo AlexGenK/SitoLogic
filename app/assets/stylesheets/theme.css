@@ -345,6 +345,10 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   font-size: 0.875em;
 }
 
+.text-pre-line {
+  white-space: pre-line;
+}
+
 /* Nutrients: fixed colours, the same on every chart and marker */
 .text-protein { color: var(--sl-protein) !important; }
 .text-fat     { color: var(--sl-fat) !important; }

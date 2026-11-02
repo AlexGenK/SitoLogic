@@ -3,8 +3,8 @@
 one:
   group_type: GPM
   code: A
-  name_en: MyText
-  name_ukr: MyText
+  name_en: Fruit
+  name_ukr: Фрукти
 
 two:
   group_type: GPM

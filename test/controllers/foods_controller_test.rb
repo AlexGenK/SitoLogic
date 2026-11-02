@@ -68,4 +68,47 @@ class FoodsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "tbody tr", 2
   end
+
+  test "index links food name to its page and keeps list params" do
+    get foods_path(q: "банан", sources: [ "UKN" ], page: 1)
+    assert_select "tbody td a[href=?]", food_path(foods(:two), q: "банан", sources: [ "UKN" ], page: 1), text: "Банан"
+  end
+
+  test "show displays full food information" do
+    get food_path(foods(:one))
+    assert_response :success
+    assert_select "h1", "Яблуко"
+    assert_select "dd", "Свіжі яблука"
+    assert_select "dd", "Середні значення за сезон"
+    assert_select "dd .badge", "USD"
+    assert_select "dd", /Міністерство сільського господарства США/
+    assert_select "dd .badge", "A"
+    assert_select "dd", /Фрукти/
+  end
+
+  test "show handles food without group, description and comment" do
+    get food_path(foods(:two))
+    assert_response :success
+    assert_select "dd", /UK Nutrient Databank/
+    assert_select "dd", "Без групи"
+    assert_select "p", "Опису й коментаря немає."
+    assert_select "dt", { text: "Опис", count: 0 }
+    assert_select "dt", { text: "Коментар", count: 0 }
+  end
+
+  test "show back link returns to the same list selection" do
+    get food_path(foods(:one), q: "ябл", sources: [ "USD" ], page: 2)
+    assert_select "a.btn[href=?]", foods_path(q: "ябл", sources: [ "USD" ], page: 2), text: "Назад до списку"
+  end
+
+  test "show back link leads to the plain list without params" do
+    get food_path(foods(:one))
+    assert_select "a.btn[href=?]", foods_path, text: "Назад до списку"
+    assert_select "a.btn i.bi-arrow-left[aria-hidden=true]"
+  end
+
+  test "show responds with not found for unknown food" do
+    get food_path(id: 0)
+    assert_response :not_found
+  end
 end

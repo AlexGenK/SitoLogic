@@ -15,3 +15,11 @@ uk:
       search: "Знайти"
       reset: "Скинути"
       not_found: "Нічого не знайдено."
+    show:
+      back: "Назад до списку"
+      description: "Опис"
+      comment: "Коментар"
+      source: "Джерело"
+      group: "Група"
+      no_group: "Без групи"
+      no_details: "Опису й коментаря немає."

@@ -1,0 +1,63 @@
+<% content_for :title, "#{@food.name_ukr} · SitoLogic" %>
+
+<div class="container-xl py-4">
+  <%= link_to foods_path(list_params), class: "btn btn-outline-secondary btn-sm mb-3" do %>
+    <i class="bi bi-arrow-left" aria-hidden="true"></i> <%= t(".back") %>
+  <% end %>
+
+  <h1 class="h3 mb-3"><%= @food.name_ukr %></h1>
+
+  <div class="row g-3">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <% if @food.description_ukr.present? || @food.comment_ukr.present? %>
+            <dl class="vstack gap-3 mb-0">
+              <% if @food.description_ukr.present? %>
+                <div>
+                  <dt class="small fw-normal text-body-secondary"><%= t(".description") %></dt>
+                  <dd class="text-pre-line mb-0"><%= @food.description_ukr %></dd>
+                </div>
+              <% end %>
+              <% if @food.comment_ukr.present? %>
+                <div>
+                  <dt class="small fw-normal text-body-secondary"><%= t(".comment") %></dt>
+                  <dd class="text-pre-line mb-0"><%= @food.comment_ukr %></dd>
+                </div>
+              <% end %>
+            </dl>
+          <% else %>
+            <p class="text-body-secondary mb-0"><%= t(".no_details") %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <dl class="vstack gap-3 mb-0">
+            <div>
+              <dt class="small fw-normal text-body-secondary"><%= t(".source") %></dt>
+              <dd class="mb-0">
+                <div class="mb-1"><span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= @food.source.code %></span></div>
+                <%= @food.source.display_name %>
+              </dd>
+            </div>
+            <div>
+              <dt class="small fw-normal text-body-secondary"><%= t(".group") %></dt>
+              <dd class="mb-0">
+                <% if @food.group %>
+                  <div class="mb-1"><span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= @food.group.code %></span></div>
+                  <%= @food.group.display_name %>
+                <% else %>
+                  <span class="text-body-secondary"><%= t(".no_group") %></span>
+                <% end %>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

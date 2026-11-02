@@ -6,10 +6,11 @@ one:
   description_en: MyText
   comment_en: MyText
   name_ukr: Яблуко
-  description_ukr: MyText
-  comment_ukr: MyText
+  description_ukr: Свіжі яблука
+  comment_ukr: Середні значення за сезон
   source_code: USD
-  group_code: MyString
+  group_type: GPM
+  group_code: A
 
 two:
   code: "09040"
@@ -17,7 +18,4 @@ two:
   description_en: MyText
   comment_en: MyText
   name_ukr: Банан
-  description_ukr: MyText
-  comment_ukr: MyText
   source_code: UKN
-  group_code: MyString
