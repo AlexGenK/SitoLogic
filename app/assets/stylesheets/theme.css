@@ -290,6 +290,13 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   --bs-pagination-active-border-color: var(--bs-primary);
 }
 
+/* Multi-select filter: checkbox list in a dropdown, scrolls inside the menu */
+.source-filter-menu {
+  width: min(24rem, calc(100vw - 2rem));
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
 /* Surfaces */
 .card {
   --bs-card-border-color: var(--bs-border-color);

@@ -6,6 +6,7 @@ uk:
     index:
       title: "Продукти"
       source_code: "Джерело"
+      sources: "Джерела"
       code: "Код"
       name: "Назва"
       empty: "Продуктів ще немає."

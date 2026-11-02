@@ -147,6 +147,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 ## Tables, cards, feedback
 
 - Tables: `table table-hover align-middle` inside `table-responsive`. The header is tinted by the theme. Totals row is `fw-semibold`. Long lists: sticky header and pagination below; search and filters in a row above the table.
+- Multi-value filters: a `dropdown` with checkboxes in the filter row (`data-bs-auto-close="outside"`), the number of selected values in a soft badge on the button, applied by the form's submit button.
 - Menus and diets are cards: day → meals → dishes. A meal card ends with the macronutrient split bar.
 - Flash messages: success as a toast in the top-right corner, hidden after 4 s; errors as an inline `alert` that stays.
 - Empty states: one short sentence and the main button («Меню ще немає» → «Створити меню»).

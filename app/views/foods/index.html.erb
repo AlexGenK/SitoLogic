@@ -1,14 +1,34 @@
 <div class="container-xl py-4">
   <h1 class="h3 mb-3"><%= t(".title") %></h1>
+  <% filtered = @query.present? || @source_codes.any? %>
 
   <%= form_with url: foods_path, method: :get, class: "row g-2 mb-3", role: "search" do |f| %>
     <div class="col-sm-8 col-lg-5">
       <%= f.search_field :q, value: @query, class: "form-control",
             placeholder: t(".search_placeholder"), aria: { label: t(".search_label") } %>
     </div>
+    <div class="col-auto dropdown">
+      <button type="button" class="btn btn-outline-secondary dropdown-toggle"
+              data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+        <%= t(".sources") %>
+        <% if @source_codes.any? %>
+          <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= @source_codes.size %></span>
+        <% end %>
+      </button>
+      <div class="dropdown-menu source-filter-menu">
+        <% @sources.each do |source| %>
+          <label class="dropdown-item d-flex align-items-center gap-2">
+            <%= check_box_tag "sources[]", source.code, @source_codes.include?(source.code),
+                  id: nil, class: "form-check-input m-0 flex-shrink-0" %>
+            <span class="text-truncate" title="<%= source.display_name %>"><%= source.display_name %></span>
+            <span class="num small text-body-secondary ms-auto"><%= source.foods_count %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
     <div class="col-auto d-flex gap-2">
       <%= f.submit t(".search"), name: nil, class: "btn btn-primary" %>
-      <%= link_to t(".reset"), foods_path, class: "btn btn-outline-secondary" if @query.present? %>
+      <%= link_to t(".reset"), foods_path, class: "btn btn-outline-secondary" if filtered %>
     </div>
   <% end %>
 
@@ -36,6 +56,6 @@
 
     <%== @pagy.series_nav(:bootstrap) %>
   <% else %>
-    <p class="text-body-secondary"><%= t(@query.present? ? ".not_found" : ".empty") %></p>
+    <p class="text-body-secondary"><%= t(filtered ? ".not_found" : ".empty") %></p>
   <% end %>
 </div>

@@ -1,11 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  code: MyString
-  name_en: MyText
-  name_ukr: MyText
+  code: USD
+  name_en: US Dept of Agriculture SR27
+  name_ukr: Міністерство сільського господарства США
 
 two:
-  code: MyString
-  name_en: MyText
-  name_ukr: MyText
+  code: UKN
+  name_en: UK Nutrient Databank
+
+without_foods:
+  code: ADF
+  name_en: Administrator-added foods

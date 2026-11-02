@@ -60,7 +60,7 @@ Associations are based on string codes from the source database, not on `id`:
 Conventions:
 - Translatable fields are pairs of columns with `_en` / `_ukr` suffixes; follow the same pattern for new text fields.
 - Declare new associations with explicit code-based `primary_key:` / `foreign_key:` (arrays for composite keys).
-- Indexes: `sources.group_type`, unique `groups(group_type, code)`, `foods(group_type, group_code)`. Other codes have no indexes or uniqueness constraints yet.
+- Indexes: `sources.group_type`, unique `groups(group_type, code)`, `foods(group_type, group_code)`, `foods.source_code`. Other codes have no indexes or uniqueness constraints yet.
 
 ## Import from dpx5db.sl3
 

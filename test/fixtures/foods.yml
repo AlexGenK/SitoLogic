@@ -8,7 +8,7 @@ one:
   name_ukr: Яблуко
   description_ukr: MyText
   comment_ukr: MyText
-  source_code: MyString
+  source_code: USD
   group_code: MyString
 
 two:
@@ -19,5 +19,5 @@ two:
   name_ukr: Банан
   description_ukr: MyText
   comment_ukr: MyText
-  source_code: MyString
+  source_code: UKN
   group_code: MyString

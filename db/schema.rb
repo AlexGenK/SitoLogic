@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_28_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_02_140145) do
   create_table "foods", force: :cascade do |t|
     t.string "code"
     t.string "name_en"
@@ -25,6 +25,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_090000) do
     t.datetime "updated_at", null: false
     t.string "group_type"
     t.index ["group_type", "group_code"], name: "index_foods_on_group_type_and_group_code"
+    t.index ["source_code"], name: "index_foods_on_source_code"
   end
 
   create_table "groups", force: :cascade do |t|
