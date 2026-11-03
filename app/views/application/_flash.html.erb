@@ -1,0 +1,10 @@
+<% if notice %>
+  <div class="toast-container position-fixed top-0 end-0 p-3 mt-5">
+    <div class="toast" role="status" aria-live="polite" aria-atomic="true"
+         data-controller="toast" data-bs-delay="4000" data-turbo-temporary>
+      <div class="toast-body">
+        <i class="bi bi-check-lg text-success" aria-hidden="true"></i> <%= notice %>
+      </div>
+    </div>
+  </div>
+<% end %>

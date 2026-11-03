@@ -39,5 +39,8 @@ module SitoLogic
     # The interface is Ukrainian only (see docs/design-system.md).
     config.i18n.available_locales = [ :uk ]
     config.i18n.default_locale = :uk
+
+    # Bootstrap expects .invalid-feedback right after .is-invalid, so fields are not wrapped in a div on errors.
+    config.action_view.field_error_proc = ->(html_tag, _instance) { html_tag }
   end
 end

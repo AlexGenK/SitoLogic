@@ -40,6 +40,7 @@
             <th scope="col"><%= t(".source_code") %></th>
             <th scope="col"><%= t(".code") %></th>
             <th scope="col"><%= t(".name") %></th>
+            <th scope="col"><span class="visually-hidden"><%= t(".actions") %></span></th>
           </tr>
         </thead>
         <tbody>
@@ -48,6 +49,12 @@
               <td class="code"><%= food.source_code %></td>
               <td class="code"><%= food.code %></td>
               <td><%= link_to food.name_ukr, food_path(food, list_params) %></td>
+              <td class="text-end">
+                <%= link_to edit_food_path(food, list_params), class: "btn btn-outline-secondary btn-sm",
+                      title: t(".edit"), aria: { label: t(".edit") } do %>
+                  <i class="bi bi-pencil" aria-hidden="true"></i>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         </tbody>

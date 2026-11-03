@@ -1,0 +1,42 @@
+<%= form_with model: food, url: url do |f| %>
+  <div class="row g-3">
+    <div class="col-sm-8">
+      <div class="form-label"><%= t(".source") %></div>
+      <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= food.source.code %></span>
+      <%= food.source.display_name %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.label :code, class: "form-label" do %><%= t(".code") %> <span class="required-mark">*</span><% end %>
+      <%= f.text_field :code, class: [ "form-control code", { "is-invalid": food.errors[:code].any? } ] %>
+      <%= tag.div(food.errors[:code].first, class: "invalid-feedback") if food.errors[:code].any? %>
+    </div>
+    <div class="col-12">
+      <%= f.label :name_ukr, class: "form-label" do %><%= t(".name") %> <span class="required-mark">*</span><% end %>
+      <%= f.text_field :name_ukr, class: [ "form-control", { "is-invalid": food.errors[:name_ukr].any? } ] %>
+      <%= tag.div(food.errors[:name_ukr].first, class: "invalid-feedback") if food.errors[:name_ukr].any? %>
+    </div>
+    <div class="col-12">
+      <% groups = food.available_groups %>
+      <%= f.label :group_code, t(".group"), class: "form-label" %>
+      <%= f.select :group_code, groups.map { |group| [ "#{group.code} — #{group.display_name}", group.code ] },
+            { include_blank: t(".no_group") },
+            class: [ "form-select", { "is-invalid": food.errors[:group_code].any? } ],
+            disabled: groups.empty?, aria: { describedby: "food_group_code_hint" } %>
+      <%= tag.div(food.errors[:group_code].first, class: "invalid-feedback") if food.errors[:group_code].any? %>
+      <div id="food_group_code_hint" class="form-text"><%= t(groups.empty? ? ".source_without_groups" : ".groups_hint") %></div>
+    </div>
+    <div class="col-12">
+      <%= f.label :description_ukr, t(".description"), class: "form-label" %>
+      <%= f.text_area :description_ukr, rows: 3, class: "form-control" %>
+    </div>
+    <div class="col-12">
+      <%= f.label :comment_ukr, t(".comment"), class: "form-label" %>
+      <%= f.text_area :comment_ukr, rows: 3, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2 border-top pt-3 mt-4">
+    <%= link_to t(".cancel"), cancel_path, class: "btn btn-outline-secondary" %>
+    <%= f.submit t(".save"), class: "btn btn-primary", data: { turbo_submits_with: t(".saving") } %>
+  </div>
+<% end %>

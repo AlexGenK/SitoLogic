@@ -11,3 +11,9 @@ two:
   code: B
   name_en: MyText
   name_ukr: MyText
+
+other_type:
+  group_type: GPS
+  code: C
+  name_en: Other type
+  name_ukr: Інший тип

@@ -1,4 +1,16 @@
 uk:
+  activerecord:
+    errors:
+      models:
+        food:
+          attributes:
+            code:
+              blank: "Вкажіть код."
+              taken: "Такий код уже є в цьому джерелі."
+            name_ukr:
+              blank: "Вкажіть назву."
+            group_code:
+              inclusion: "Ця група не дозволена для джерела продукту."
   nav:
     foods: "Продукти"
     toggle: "Перемкнути навігацію"
@@ -15,7 +27,28 @@ uk:
       search: "Знайти"
       reset: "Скинути"
       not_found: "Нічого не знайдено."
+      actions: "Дії"
+      edit: "Редагувати продукт"
+    edit:
+      title: "Редагування продукту"
+      back: "Назад до продукту"
+    form:
+      source: "Джерело"
+      code: "Код"
+      name: "Назва"
+      group: "Група"
+      no_group: "Без групи"
+      groups_hint: "Лише групи, дозволені для цього джерела."
+      source_without_groups: "Це джерело не використовує групи."
+      description: "Опис"
+      comment: "Коментар"
+      cancel: "Скасувати"
+      save: "Зберегти продукт"
+      saving: "Збереження…"
+    update:
+      saved: "Продукт збережено."
     show:
+      edit: "Редагувати продукт"
       back: "Назад до списку"
       description: "Опис"
       comment: "Коментар"

@@ -2,6 +2,7 @@
 
 one:
   code: USD
+  group_type: GPM
   name_en: US Dept of Agriculture SR27
   name_ukr: Міністерство сільського господарства США
 

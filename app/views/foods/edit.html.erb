@@ -1,0 +1,19 @@
+<% content_for :title, "#{t(".title")} · SitoLogic" %>
+
+<div class="container-xl py-4">
+  <%= link_to food_path(@food, list_params), class: "btn btn-outline-secondary btn-sm mb-3" do %>
+    <i class="bi bi-arrow-left" aria-hidden="true"></i> <%= t(".back") %>
+  <% end %>
+
+  <h1 class="h3 mb-3"><%= t(".title") %></h1>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <%= render "form", food: @food, url: food_path(@food, list_params), cancel_path: food_path(@food, list_params) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
