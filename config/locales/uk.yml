@@ -50,6 +50,7 @@ uk:
     show:
       edit: "Редагувати продукт"
       back: "Назад до списку"
+      code: "Код"
       description: "Опис"
       comment: "Коментар"
       source: "Джерело"

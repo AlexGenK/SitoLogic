@@ -14,7 +14,7 @@
 
   <div class="row g-3">
     <div class="col-lg-8">
-      <div class="card">
+      <div class="card h-100">
         <div class="card-body">
           <% if @food.description_ukr.present? || @food.comment_ukr.present? %>
             <dl class="vstack gap-3 mb-0">
@@ -43,18 +43,22 @@
         <div class="card-body">
           <dl class="vstack gap-3 mb-0">
             <div>
+              <dt class="small fw-normal text-body-secondary"><%= t(".code") %></dt>
+              <dd class="mb-0"><span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= @food.code %></span></dd>
+            </div>
+            <div>
               <dt class="small fw-normal text-body-secondary"><%= t(".source") %></dt>
-              <dd class="mb-0">
-                <div class="mb-1"><span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= @food.source.code %></span></div>
-                <%= @food.source.display_name %>
+              <dd class="d-flex align-items-baseline gap-2 mb-0">
+                <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code flex-shrink-0"><%= @food.source.code %></span>
+                <span><%= @food.source.display_name %></span>
               </dd>
             </div>
             <div>
               <dt class="small fw-normal text-body-secondary"><%= t(".group") %></dt>
-              <dd class="mb-0">
+              <dd class="d-flex align-items-baseline gap-2 mb-0">
                 <% if @food.group %>
-                  <div class="mb-1"><span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= @food.group.code %></span></div>
-                  <%= @food.group.display_name %>
+                  <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code flex-shrink-0"><%= @food.group.code %></span>
+                  <span><%= @food.group.display_name %></span>
                 <% else %>
                   <span class="text-body-secondary"><%= t(".no_group") %></span>
                 <% end %>

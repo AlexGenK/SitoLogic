@@ -78,6 +78,8 @@ class FoodsControllerTest < ActionDispatch::IntegrationTest
     get food_path(foods(:one))
     assert_response :success
     assert_select "h1", "Яблуко"
+    assert_select "dt", "Код"
+    assert_select "dd .badge", "09003"
     assert_select "dd", "Свіжі яблука"
     assert_select "dd", "Середні значення за сезон"
     assert_select "dd .badge", "USD"
