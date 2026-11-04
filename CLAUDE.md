@@ -46,6 +46,7 @@ bin/importmap audit
 bin/ci                         # full local CI (config/ci.rb)
 bin/rails import:sources       # import sources from vendor/db/dpx5db.sl3
 bin/rails import:groups        # import food groups from vendor/db/dpx5db.sl3
+bin/rails import:nutrients     # import nutrients from vendor/db/dpx5db.sl3
 ```
 
 GitHub CI (`.github/workflows/ci.yml`): brakeman, bundler-audit, importmap audit, rubocop, tests and system tests. Before committing, run at least `bin/rubocop` and `bin/rails test`.
@@ -57,15 +58,18 @@ Associations are based on string codes from the source database, not on `id`:
 - `Source` (`code`, `group_type`, `name_en`, `name_ukr`) — data source; `group_type` is the food group type it uses (`GPM`, `GPS`, `GPT`, `GPU`, `GPE`, `G10`), `nil` for sources without groups. `has_many :foods` (by `source_code`), `has_many :groups` (by `group_type`)
 - `Group` (`group_type`, `code`, `name_en`, `name_ukr`) — food group; belongs to a group type, not to a source (one type is shared by several sources). The code is unique only within a type (unique index on `group_type, code`). `has_many :sources` (by `group_type`), `has_many :foods` (composite key `[group_type, code]` ↔ `[group_type, group_code]`)
 - `Food` (`code`, `source_code`, `group_type`, `group_code`, `name_*`, `description_*`, `comment_*` for `en`/`ukr`) — `belongs_to :source`; `belongs_to :group, optional: true` via composite key. `group_type` is denormalized from the source; `group_code` is `nil` for foods without a group
+- `Nutrient` (`code`, `short_name_en`, `med_name_en`, `long_name_en`, `med_name_ukr`, `long_name_ukr`, `group`, `unit`) — `code` is the source `NutrId`, kept to match rows on re-import (unique index). `group` and `unit` are string enums with `prefix: true`; both can be `nil`. `group` is a reserved word in SQL, quote it in raw queries; it is unrelated to the `Group` model
 
 Conventions:
 - Translatable fields are pairs of columns with `_en` / `_ukr` suffixes; follow the same pattern for new text fields.
 - Declare new associations with explicit code-based `primary_key:` / `foreign_key:` (arrays for composite keys).
-- Indexes: `sources.group_type`, unique `groups(group_type, code)`, `foods(group_type, group_code)`, `foods.source_code`. Other codes have no indexes or uniqueness constraints yet.
+- Indexes: `sources.group_type`, unique `groups(group_type, code)`, `foods(group_type, group_code)`, `foods.source_code`, unique `nutrients.code`. Other codes have no indexes or uniqueness constraints yet.
 
 ## Import from dpx5db.sl3
 
-Rake tasks in `lib/tasks/import.rake` (namespace `import`) open the source database read-only via the `sqlite3` gem, upsert with `find_or_initialize_by(code:)` inside a transaction, and strip whitespace from values. Implemented: `import:sources` (also sets `group_type`) and `import:groups`. There is no foods import task yet; when added, it must set `group_type` from the food's source and store an empty `GroupCode` as `nil`.
+Rake tasks in `lib/tasks/import.rake` (namespace `import`) open the source database read-only via the `sqlite3` gem, upsert with `find_or_initialize_by(code:)` inside a transaction, and strip whitespace from values. Implemented: `import:sources` (also sets `group_type`), `import:groups` and `import:nutrients`. There is no foods import task yet; when added, it must set `group_type` from the food's source and store an empty `GroupCode` as `nil`.
+
+`import:nutrients` takes rows with `TypeCode = 'S'` whose `ClassCode` does not start with `00` (332). `group` comes from the `TypeCode = 'T'` row with the same two-digit `ClassCode` prefix (`XX_00`). Prefixes without such a row: `21`–`24` use `20` (Carbohydrate components), `62` uses `61` (Amino acids), `25` has no group. `UnitCode` maps as 2=ug, 3=mg, 4=g, 5=kJ, 6=kcal, 9=Ui, 10=kg/l; any other code gives `unit: nil` (`NutrId` 299, `UnitCode` 0).
 
 Main tables in the source database:
 - `reference` (`Code`, `RefType`, `Name`) — lookup tables; `RefType = 'SRC'` — sources (27). `RefType = 'GLN'` maps a source code (`Code`) to its group type (`Name`); 8 sources have no `GLN` row and their foods have no group. Group types `G10`, `GPE`, `GPM`, `GPS`, `GPT`, `GPU` are themselves `RefType` values holding the groups (382 in total). Other types: `DSD`, `MPZ`, `PTN`, `WRC`.

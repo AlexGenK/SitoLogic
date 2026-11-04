@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_02_140145) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_04_090000) do
   create_table "foods", force: :cascade do |t|
     t.string "code"
     t.string "name_en"
@@ -36,6 +36,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_140145) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_type", "code"], name: "index_groups_on_group_type_and_code", unique: true
+  end
+
+  create_table "nutrients", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "short_name_en"
+    t.string "med_name_en"
+    t.string "long_name_en"
+    t.string "med_name_ukr"
+    t.string "long_name_ukr"
+    t.string "group"
+    t.string "unit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_nutrients_on_code", unique: true
   end
 
   create_table "sources", force: :cascade do |t|
