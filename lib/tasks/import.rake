@@ -86,4 +86,43 @@ namespace :import do
 
     puts "Imported #{rows.size} nutrients, total #{Nutrient.count}"
   end
+
+  desc "Import nutrient amounts of foods from vendor/db/dpx5db.sl3 food_nutr table"
+  task food_nutrients: :environment do
+    require "sqlite3"
+
+    path = Rails.root.join("vendor/db/dpx5db.sl3")
+    abort "File not found: #{path}" unless File.exist?(path)
+
+    food_ids = Food.pluck(:source_code, :code, :id).to_h { |source, code, id| [ [ source, code ], id ] }
+    nutrient_ids = Nutrient.pluck(:code, :id).to_h
+
+    db = SQLite3::Database.new(path.to_s, readonly: true)
+    rows = db.execute("SELECT DataSource, FoodCode, NutrId, NutrValue FROM food_nutr")
+    db.close
+
+    imported = no_nutrient = no_food = 0
+
+    FoodNutrient.transaction do
+      rows.each_slice(1000) do |batch|
+        records = batch.filter_map do |source, food_code, nutrient_code, value|
+          nutrient_id = nutrient_ids[nutrient_code.strip]
+          food_id = food_ids[[ source.strip, food_code.strip ]]
+
+          no_nutrient += 1 if nutrient_id.nil?
+          no_food += 1 if nutrient_id && food_id.nil?
+          next unless nutrient_id && food_id
+
+          { food_id: food_id, nutrient_id: nutrient_id, amount: value.strip }
+        end
+        next if records.empty?
+
+        FoodNutrient.upsert_all(records, unique_by: [ :food_id, :nutrient_id ])
+        imported += records.size
+      end
+    end
+
+    puts "Imported #{imported} of #{rows.size} food nutrients, skipped: " \
+         "#{no_nutrient} without nutrient, #{no_food} without food; total #{FoodNutrient.count}"
+  end
 end

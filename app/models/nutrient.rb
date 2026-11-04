@@ -1,4 +1,7 @@
 class Nutrient < ApplicationRecord
+  has_many :food_nutrients, dependent: :restrict_with_error
+  has_many :foods, through: :food_nutrients
+
   enum :group, {
     properties: "Properties",
     proximates: "Proximates",
