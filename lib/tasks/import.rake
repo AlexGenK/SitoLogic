@@ -78,7 +78,7 @@ namespace :import do
           short_name_en: short_name.strip,
           med_name_en: med_name.strip,
           long_name_en: long_name.strip,
-          group: Nutrient.groups.key(group_name),
+          group: group_name&.downcase&.scan(/[a-z0-9]+/)&.join("_"),
           unit: units[unit_code.strip]
         )
       end
