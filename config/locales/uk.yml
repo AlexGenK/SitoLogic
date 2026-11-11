@@ -79,3 +79,8 @@ uk:
       other_group: "Інше"
       empty: "Нутрієнтів ще немає."
       name: "Назва"
+    show:
+      back: "Назад до списку"
+      med_name: "Назва"
+      long_name: "Повна назва"
+      group: "Група"

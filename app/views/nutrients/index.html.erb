@@ -32,7 +32,7 @@
             <tbody>
               <% @nutrients.each do |nutrient| %>
                 <tr>
-                  <td><%= nutrient.med_name_ukr %></td>
+                  <td><%= link_to nutrient.med_name_ukr, nutrient_path(nutrient) %></td>
                 </tr>
               <% end %>
             </tbody>

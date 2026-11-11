@@ -1,0 +1,32 @@
+<% content_for :title, "#{@nutrient.med_name_ukr} · SitoLogic" %>
+
+<div class="container-xl py-4">
+  <%= link_to nutrients_path(group: @group), class: "btn btn-outline-secondary btn-sm mb-3" do %>
+    <i class="bi bi-arrow-left" aria-hidden="true"></i> <%= t(".back") %>
+  <% end %>
+
+  <h1 class="h3 mb-3"><%= @nutrient.med_name_ukr %></h1>
+
+  <div class="row g-3">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <dl class="vstack gap-3 mb-0">
+            <div>
+              <dt class="small fw-normal text-body-secondary"><%= t(".med_name") %></dt>
+              <dd class="mb-0"><%= @nutrient.med_name_ukr %></dd>
+            </div>
+            <div>
+              <dt class="small fw-normal text-body-secondary"><%= t(".long_name") %></dt>
+              <dd class="mb-0"><%= @nutrient.long_name_ukr %></dd>
+            </div>
+            <div>
+              <dt class="small fw-normal text-body-secondary"><%= t(".group") %></dt>
+              <dd class="mb-0"><%= nutrient_group_name(@group) %></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

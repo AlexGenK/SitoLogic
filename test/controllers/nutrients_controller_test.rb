@@ -29,4 +29,29 @@ class NutrientsControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "#nutrient-groups .nav-link.active", /Основні показники/
   end
+
+  test "index links nutrients to their pages" do
+    get nutrients_path(group: "vitamins")
+
+    assert_select "#nutrients a[href=?]", nutrient_path(nutrients(:retinol)), "Ретинол"
+  end
+
+  test "show displays the group with a link back to it" do
+    get nutrient_path(nutrients(:retinol))
+
+    assert_response :success
+    assert_select "h1", "Ретинол"
+    assert_select "dd", "Вітаміни"
+    assert_select "a[href=?]", nutrients_path(group: "vitamins")
+  end
+
+  test "show displays both names and links a nutrient without a group back to the other group" do
+    get nutrient_path(nutrients(:sialic))
+
+    assert_select "h1", "Сіалова кислота"
+    assert_select "dd", "Сіалова кислота"
+    assert_select "dd", "N-ацетилнейрамінова кислота"
+    assert_select "dd", "Інше"
+    assert_select "a[href=?]", nutrients_path(group: "other")
+  end
 end
