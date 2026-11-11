@@ -3,6 +3,7 @@ class Food < ApplicationRecord
   belongs_to :group, primary_key: [ :group_type, :code ], foreign_key: [ :group_type, :group_code ], optional: true
   has_many :food_nutrients, dependent: :destroy
   has_many :nutrients, through: :food_nutrients
+  has_many :menu_items, dependent: :restrict_with_error
 
   # Every word of the query must occur in name_ukr, in any order and case
   scope :search_by_name_ukr, ->(query) {

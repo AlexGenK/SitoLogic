@@ -17,6 +17,25 @@ uk:
               blank: "Вкажіть назву."
             long_name_ukr:
               blank: "Вкажіть повну назву."
+        menu:
+          attributes:
+            code:
+              blank: "Вкажіть код."
+              taken: "Меню з таким кодом уже є."
+            name:
+              blank: "Вкажіть назву."
+            days_count:
+              items_outside: "У меню є страви в днях за межами нової кількості."
+            meals_per_day:
+              items_outside: "У меню є страви в прийомах їжі за межами нової кількості."
+            items_per_meal:
+              items_outside: "У меню є страви за межами нової кількості страв."
+            variants_per_item:
+              items_outside: "У меню є варіанти за межами нової кількості."
+        menu_item:
+          attributes:
+            variant:
+              taken: "Ця клітинка меню вже заповнена."
   nav:
     nutrients: "Нутрієнти"
     foods: "Продукти"

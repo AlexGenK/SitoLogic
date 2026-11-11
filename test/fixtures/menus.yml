@@ -1,0 +1,7 @@
+one:
+  code: M1
+  name: Тижневе меню
+  days_count: 7
+  meals_per_day: 4
+  items_per_meal: 3
+  variants_per_item: 2
