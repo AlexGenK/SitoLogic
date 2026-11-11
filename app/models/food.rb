@@ -4,7 +4,10 @@ class Food < ApplicationRecord
   has_many :food_nutrients, dependent: :destroy
   has_many :nutrients, through: :food_nutrients
 
-  scope :search_by_name_ukr, ->(query) { where("instr(unicode_lower(name_ukr), ?) > 0", query.downcase) }
+  # Every word of the query must occur in name_ukr, in any order and case
+  scope :search_by_name_ukr, ->(query) {
+    query.downcase.split.inject(all) { |foods, word| foods.where("instr(unicode_lower(name_ukr), ?) > 0", word) }
+  }
   scope :from_sources, ->(codes) { where(source_code: codes) }
 
   normalizes :code, :name_ukr, :group_code, with: ->(value) { value.strip.presence }

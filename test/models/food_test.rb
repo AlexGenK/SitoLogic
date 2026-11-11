@@ -59,4 +59,9 @@ class FoodTest < ActiveSupport::TestCase
   test "available_groups are the groups of the source sorted by code" do
     assert_equal [ "A", "B" ], foods(:one).available_groups.map(&:code)
   end
+
+  test "search_by_name_ukr matches every word in any order" do
+    assert_equal [ foods(:two) ], Food.search_by_name_ukr("НАН  ба").to_a
+    assert_empty Food.search_by_name_ukr("бан ябл")
+  end
 end

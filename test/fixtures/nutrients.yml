@@ -1,5 +1,5 @@
-water:   { code: "101", long_name_en: Water,   long_name_ukr: Вода,  group: proximates, unit: g }
-protein: { code: "103", long_name_en: Protein, long_name_ukr: Білки, group: proximates, unit: g }
-fat:     { code: "104", long_name_en: Fat,     long_name_ukr: Жири,  group: proximates, unit: g }
-retinol: { code: "301", long_name_en: Retinol, group: vitamins, unit: ug }
-sialic:  { code: "191", long_name_en: Sialic acid, long_name_ukr: Сіалова кислота, unit: g }
+water:   { code: "101", long_name_en: Water,   long_name_ukr: Вода,  med_name_ukr: Вода,  group: proximates, unit: g }
+protein: { code: "103", long_name_en: Protein, long_name_ukr: Білки, med_name_ukr: Білки, group: proximates, unit: g }
+fat:     { code: "104", long_name_en: Fat,     long_name_ukr: Жири,  med_name_ukr: Жири,  group: proximates, unit: g }
+retinol: { code: "301", long_name_en: Retinol, med_name_ukr: Ретинол, group: vitamins, unit: ug }
+sialic:  { code: "191", long_name_en: Sialic acid, long_name_ukr: Сіалова кислота, med_name_ukr: Сіалова кислота, unit: g }

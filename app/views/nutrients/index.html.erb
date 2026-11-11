@@ -1,0 +1,46 @@
+<div class="container-xl py-4">
+  <h1 class="h3 mb-3"><%= t(".title") %></h1>
+
+  <% if @groups.any? %>
+    <div class="row g-3">
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <nav id="nutrient-groups" class="nav nav-pills flex-column" aria-label="<%= t(".groups") %>">
+              <% @groups.each do |group| %>
+                <% selected = group == @group %>
+                <%= link_to nutrients_path(group: group),
+                      class: ["nav-link d-flex justify-content-between gap-2 py-1", { active: selected }],
+                      aria: { current: ("page" if selected) } do %>
+                  <span><%= nutrient_group_name(group) %></span>
+                  <span class="small num opacity-75"><%= @group_counts[group] %></span>
+                <% end %>
+              <% end %>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-9">
+        <div class="table-responsive">
+          <table id="nutrients" class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th scope="col"><%= t(".name") %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @nutrients.each do |nutrient| %>
+                <tr>
+                  <td><%= nutrient.med_name_ukr %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <p class="text-body-secondary"><%= t(".empty") %></p>
+  <% end %>
+</div>

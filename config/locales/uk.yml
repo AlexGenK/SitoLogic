@@ -12,6 +12,7 @@ uk:
             group_code:
               inclusion: "Ця група не дозволена для джерела продукту."
   nav:
+    nutrients: "Нутрієнти"
     foods: "Продукти"
     toggle: "Перемкнути навігацію"
   foods:
@@ -71,3 +72,10 @@ uk:
       amount: "Кількість"
       unit: "Одиниця"
       empty: "Даних про нутрієнти немає."
+  nutrients:
+    index:
+      title: "Нутрієнти"
+      groups: "Групи нутрієнтів"
+      other_group: "Інше"
+      empty: "Нутрієнтів ще немає."
+      name: "Назва"
