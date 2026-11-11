@@ -11,6 +11,12 @@ uk:
               blank: "Вкажіть назву."
             group_code:
               inclusion: "Ця група не дозволена для джерела продукту."
+        nutrient:
+          attributes:
+            med_name_ukr:
+              blank: "Вкажіть назву."
+            long_name_ukr:
+              blank: "Вкажіть повну назву."
   nav:
     nutrients: "Нутрієнти"
     foods: "Продукти"
@@ -79,8 +85,22 @@ uk:
       other_group: "Інше"
       empty: "Нутрієнтів ще немає."
       name: "Назва"
+      actions: "Дії"
+      edit: "Редагувати нутрієнт"
     show:
       back: "Назад до списку"
       med_name: "Назва"
       long_name: "Повна назва"
       group: "Група"
+      edit: "Редагувати нутрієнт"
+    edit:
+      title: "Редагування нутрієнту"
+      back: "Назад до нутрієнту"
+    form:
+      med_name: "Назва"
+      long_name: "Повна назва"
+      cancel: "Скасувати"
+      save: "Зберегти нутрієнт"
+      saving: "Збереження…"
+    update:
+      saved: "Нутрієнт збережено."

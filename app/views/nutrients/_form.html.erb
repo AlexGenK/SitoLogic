@@ -1,0 +1,19 @@
+<%= form_with model: nutrient, url: url do |f| %>
+  <div class="row g-3">
+    <div class="col-12">
+      <%= f.label :med_name_ukr, class: "form-label" do %><%= t(".med_name") %> <span class="required-mark">*</span><% end %>
+      <%= f.text_field :med_name_ukr, class: [ "form-control", { "is-invalid": nutrient.errors[:med_name_ukr].any? } ] %>
+      <%= tag.div(nutrient.errors[:med_name_ukr].first, class: "invalid-feedback") if nutrient.errors[:med_name_ukr].any? %>
+    </div>
+    <div class="col-12">
+      <%= f.label :long_name_ukr, class: "form-label" do %><%= t(".long_name") %> <span class="required-mark">*</span><% end %>
+      <%= f.text_field :long_name_ukr, class: [ "form-control", { "is-invalid": nutrient.errors[:long_name_ukr].any? } ] %>
+      <%= tag.div(nutrient.errors[:long_name_ukr].first, class: "invalid-feedback") if nutrient.errors[:long_name_ukr].any? %>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2 border-top pt-3 mt-4">
+    <%= link_to t(".cancel"), cancel_path, class: "btn btn-outline-secondary" %>
+    <%= f.submit t(".save"), class: "btn btn-primary", data: { turbo_submits_with: t(".saving") } %>
+  </div>
+<% end %>

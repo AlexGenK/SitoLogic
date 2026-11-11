@@ -36,7 +36,11 @@ class Nutrient < ApplicationRecord
   enum :group, GROUPS.keys.index_with(&:to_s), prefix: true, validate: { allow_nil: true }
   enum :unit, UNITS.keys.index_with(&:to_s), prefix: true, validate: { allow_nil: true }
 
+  normalizes :med_name_ukr, :long_name_ukr, with: ->(value) { value.strip.presence }
+
   validates :code, presence: true, uniqueness: true
+  # Not checked by import:nutrients (context :import), which writes English fields only
+  validates :med_name_ukr, :long_name_ukr, presence: true, on: [ :create, :update ]
 
   def group_ukr
     GROUPS[group&.to_sym]

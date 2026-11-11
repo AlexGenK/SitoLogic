@@ -74,13 +74,15 @@ namespace :import do
         prefix = class_code.first(2)
         group_name = headers[parent_prefixes.fetch(prefix, prefix)]
 
-        Nutrient.find_or_initialize_by(code: code.strip).update!(
+        nutrient = Nutrient.find_or_initialize_by(code: code.strip)
+        nutrient.assign_attributes(
           short_name_en: short_name.strip,
           med_name_en: med_name.strip,
           long_name_en: long_name.strip,
           group: group_name&.downcase&.scan(/[a-z0-9]+/)&.join("_"),
           unit: units[unit_code.strip]
         )
+        nutrient.save!(context: :import)
       end
     end
 

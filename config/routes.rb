@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   root "foods#index"
 
   resources :foods, only: [ :index, :show, :edit, :update ]
-  resources :nutrients, only: [ :index, :show ]
+  resources :nutrients, only: [ :index, :show, :edit, :update ]
 end

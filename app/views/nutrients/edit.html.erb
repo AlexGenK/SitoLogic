@@ -1,0 +1,19 @@
+<% content_for :title, "#{t(".title")} · SitoLogic" %>
+
+<div class="container-xl py-4">
+  <%= link_to nutrient_path(@nutrient), class: "btn btn-outline-secondary btn-sm mb-3" do %>
+    <i class="bi bi-arrow-left" aria-hidden="true"></i> <%= t(".back") %>
+  <% end %>
+
+  <h1 class="h3 mb-3"><%= t(".title") %></h1>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <%= render "form", nutrient: @nutrient, url: nutrient_path(@nutrient), cancel_path: nutrient_path(@nutrient) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

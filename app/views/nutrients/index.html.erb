@@ -27,12 +27,19 @@
             <thead>
               <tr>
                 <th scope="col"><%= t(".name") %></th>
+                <th scope="col"><span class="visually-hidden"><%= t(".actions") %></span></th>
               </tr>
             </thead>
             <tbody>
               <% @nutrients.each do |nutrient| %>
                 <tr>
                   <td><%= link_to nutrient.med_name_ukr, nutrient_path(nutrient) %></td>
+                  <td class="text-end">
+                    <%= link_to edit_nutrient_path(nutrient), class: "btn btn-outline-secondary btn-sm",
+                          title: t(".edit"), aria: { label: t(".edit") } do %>
+                      <i class="bi bi-pencil" aria-hidden="true"></i>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>
