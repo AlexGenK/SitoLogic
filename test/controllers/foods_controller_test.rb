@@ -22,6 +22,13 @@ class FoodsControllerTest < ActionDispatch::IntegrationTest
     assert_select "tbody td", "Банан"
   end
 
+  test "index wraps results in a frame for live search" do
+    get foods_path
+    assert_select "form[data-controller=search][data-turbo-frame=foods]"
+    assert_select "input[name=q][data-action='input->search#search']"
+    assert_select "turbo-frame#foods[target=_top] table"
+  end
+
   test "index shows not found message for search without results" do
     get foods_path(q: "груша")
     assert_response :success

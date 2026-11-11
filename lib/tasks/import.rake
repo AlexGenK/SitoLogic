@@ -99,30 +99,49 @@ namespace :import do
 
     db = SQLite3::Database.new(path.to_s, readonly: true)
     rows = db.execute("SELECT DataSource, FoodCode, NutrId, NutrValue FROM food_nutr")
+    # Foods without their own food_nutr rows take the values of their prime food (PrimeSource + PrimeCode)
+    derived = db.execute(<<~SQL).each_with_object({}) do |(prime_source, prime_code, source, code), map|
+      SELECT f.PrimeSource, f.PrimeCode, f.DataSource, f.FoodCode
+      FROM food f
+      WHERE NOT (f.PrimeSource = f.DataSource AND f.PrimeCode = f.FoodCode)
+        AND NOT EXISTS (
+          SELECT 1 FROM food_nutr n WHERE n.DataSource = f.DataSource AND n.FoodCode = f.FoodCode
+        )
+    SQL
+      (map[[ prime_source.strip, prime_code.strip ]] ||= []) << [ source.strip, code.strip ]
+    end
     db.close
 
-    imported = no_nutrient = no_food = 0
+    imported = inherited = no_nutrient = no_food = 0
 
     FoodNutrient.transaction do
       rows.each_slice(1000) do |batch|
-        records = batch.filter_map do |source, food_code, nutrient_code, value|
+        records = batch.flat_map do |source, food_code, nutrient_code, value|
           nutrient_id = nutrient_ids[nutrient_code.strip]
-          food_id = food_ids[[ source.strip, food_code.strip ]]
+          if nutrient_id.nil?
+            no_nutrient += 1
+            next []
+          end
 
-          no_nutrient += 1 if nutrient_id.nil?
-          no_food += 1 if nutrient_id && food_id.nil?
-          next unless nutrient_id && food_id
+          key = [ source.strip, food_code.strip ]
+          [ key, *derived[key] ].filter_map do |target|
+            food_id = food_ids[target]
+            no_food += 1 if food_id.nil?
+            next unless food_id
 
-          { food_id: food_id, nutrient_id: nutrient_id, amount: value.strip }
+            inherited += 1 unless target == key
+            { food_id: food_id, nutrient_id: nutrient_id, amount: value.strip }
+          end
         end
-        next if records.empty?
 
-        FoodNutrient.upsert_all(records, unique_by: [ :food_id, :nutrient_id ])
-        imported += records.size
+        records.each_slice(1000) do |slice|
+          FoodNutrient.upsert_all(slice, unique_by: [ :food_id, :nutrient_id ])
+          imported += slice.size
+        end
       end
     end
 
-    puts "Imported #{imported} of #{rows.size} food nutrients, skipped: " \
-         "#{no_nutrient} without nutrient, #{no_food} without food; total #{FoodNutrient.count}"
+    puts "Imported #{imported} food nutrients from #{rows.size} rows (#{inherited} inherited from prime foods), " \
+         "skipped: #{no_nutrient} without nutrient, #{no_food} without food; total #{FoodNutrient.count}"
   end
 end

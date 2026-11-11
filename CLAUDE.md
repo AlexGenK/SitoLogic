@@ -75,6 +75,8 @@ Rake tasks in `lib/tasks/import.rake` (namespace `import`) open the source datab
 
 `import:food_nutrients` runs after foods and nutrients are in the database: it finds `food_id` by `DataSource` + `FoodCode` (`FoodCode` alone is not unique) and `nutrient_id` by `NutrId`, then writes with `upsert_all` in batches, so model validations do not run. Rows with no matching nutrient or food are skipped and counted in the task output. `food` and `nutrient` ids must stay stable between imports.
 
+Foods with no `food_nutr` rows of their own (10 842: `IDS`, `ID2`, `MW5`, `MW6`, `MW7`, `FAT`) get a copy of the rows of their prime food (`PrimeSource` + `PrimeCode`, always a food with its own rows; there are no chains). Foods that have their own rows keep only them, even when their prime food is another one. A change to a prime food reaches its copies only on the next import. `FatsCode` and the pickled `NutrCache` blob are not used: the cache matches these rules but is stale for some foods.
+
 Main tables in the source database:
 - `reference` (`Code`, `RefType`, `Name`) — lookup tables; `RefType = 'SRC'` — sources (27). `RefType = 'GLN'` maps a source code (`Code`) to its group type (`Name`); 8 sources have no `GLN` row and their foods have no group. Group types `G10`, `GPE`, `GPM`, `GPS`, `GPT`, `GPU` are themselves `RefType` values holding the groups (382 in total). Other types: `DSD`, `MPZ`, `PTN`, `WRC`.
 - `food` (~33k) — `DataSource`, `FoodCode`, `GroupCode`, `Name`, `Description`, `Comment`, …
