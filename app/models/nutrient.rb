@@ -45,4 +45,8 @@ class Nutrient < ApplicationRecord
   def unit_ukr
     UNITS[unit&.to_sym]
   end
+
+  def display_name
+    long_name_ukr.presence || long_name_en
+  end
 end

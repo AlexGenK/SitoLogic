@@ -1,0 +1,56 @@
+<% total = nutrient_groups.sum { |_, food_nutrients| food_nutrients.size } %>
+
+<div class="card mt-3 nutrient-card">
+  <div class="card-header d-flex flex-wrap justify-content-between align-items-baseline gap-2 py-3">
+    <h2 class="h5 mb-0"><%= t(".title") %></h2>
+    <% if total.positive? %>
+      <span class="small text-body-secondary"><%= t(".per_100g") %> · <%= t(".count", count: total) %></span>
+    <% end %>
+  </div>
+
+  <% if total.zero? %>
+    <div class="card-body">
+      <p class="text-body-secondary mb-0"><%= t(".empty") %></p>
+    </div>
+  <% else %>
+    <div class="row g-0 flex-nowrap nutrient-body" data-controller="scrollspy">
+      <div class="col-lg-3 d-none d-lg-block border-end nutrient-pane">
+        <nav id="nutrient-groups-nav" class="nav nav-pills flex-column p-2" aria-label="<%= t(".groups") %>">
+          <% nutrient_groups.each do |group, food_nutrients| %>
+            <a class="nav-link d-flex justify-content-between gap-2 py-1" href="#nutrient-group-<%= group || "other" %>"
+               data-scrollspy-target="link" data-action="scrollspy#select">
+              <span><%= food_nutrients.first.nutrient.group_ukr || t(".other_group") %></span>
+              <span class="small text-body-secondary num"><%= food_nutrients.size %></span>
+            </a>
+          <% end %>
+        </nav>
+      </div>
+
+      <div class="col-lg-9 nutrient-pane" data-scrollspy-target="scroller">
+        <table class="table table-hover align-middle mb-0">
+          <thead data-scrollspy-target="header">
+            <tr>
+              <th scope="col"><%= t(".nutrient") %></th>
+              <th scope="col" class="num"><%= t(".amount") %></th>
+              <th scope="col"><%= t(".unit") %></th>
+            </tr>
+          </thead>
+          <% nutrient_groups.each do |group, food_nutrients| %>
+            <tbody id="nutrient-group-<%= group || "other" %>" class="nutrient-group">
+              <tr class="nutrient-group-header">
+                <th scope="colgroup" colspan="3"><%= food_nutrients.first.nutrient.group_ukr || t(".other_group") %></th>
+              </tr>
+              <% food_nutrients.each do |food_nutrient| %>
+                <tr>
+                  <td><%= food_nutrient.nutrient.display_name %></td>
+                  <td class="num"><%= nutrient_amount(food_nutrient.amount) %></td>
+                  <td class="text-body-secondary"><%= food_nutrient.nutrient.unit_ukr %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>

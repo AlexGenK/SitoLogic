@@ -148,6 +148,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 
 - Tables: `table table-hover align-middle` inside `table-responsive`. The header is tinted by the theme. Totals row is `fw-semibold`. Long lists: sticky header and pagination below; search and filters in a row above the table.
 - Multi-value filters: a `dropdown` with checkboxes in the filter row (`data-bs-auto-close="outside"`), the number of selected values in a soft badge on the button, applied by the form's submit button.
+- Grouped reference lists (a food's nutrients): a card at most 800px tall (`.nutrient-card`). The group nav (`nav nav-pills flex-column` in a `col-lg-3` column, hidden below `lg`) stays in place; the table scrolls inside its own column with a sticky header and one tinted group row (`tr.nutrient-group-header`) per group. The `scrollspy` Stimulus controller highlights the group at the top of the table and scrolls the table, not the page, to a clicked group. The basis («Вміст на 100 г продукту») is stated in the card header. Zero amounts are never shown.
 - Menus and diets are cards: day → meals → dishes. A meal card ends with the macronutrient split bar.
 - Flash messages: success as a toast in the top-right corner, hidden after 4 s; errors as an inline `alert` that stays.
 - Empty states: one short sentence and the main button («Меню ще немає» → «Створити меню»).

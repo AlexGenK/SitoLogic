@@ -1,0 +1,5 @@
+water:   { food: one, nutrient: water,   amount: 85.5 }
+protein: { food: one, nutrient: protein, amount: 0.3 }
+fat:     { food: one, nutrient: fat,     amount: 0 }
+retinol: { food: one, nutrient: retinol, amount: 1322000.0 }
+sialic:  { food: one, nutrient: sialic,  amount: 0.004 }

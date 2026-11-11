@@ -17,6 +17,14 @@ class Food < ApplicationRecord
     source.groups.order(:code)
   end
 
+  # Non-zero nutrient amounts as [[group, food_nutrients], …] in Nutrient::GROUPS order;
+  # nutrients without a group come last under nil. Zero amounts are never shown.
+  def nutrient_groups
+    food_nutrients.where.not(amount: 0).includes(:nutrient).order(:nutrient_id)
+      .group_by { it.nutrient.group }
+      .sort_by { |group, _| Nutrient.groups.keys.index(group) || Nutrient.groups.size }
+  end
+
   private
     def group_allowed_by_source
       return if group_code.nil? || source.nil?

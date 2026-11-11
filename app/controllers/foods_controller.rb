@@ -13,6 +13,7 @@ class FoodsController < ApplicationController
   end
 
   def show
+    @nutrient_groups = @food.nutrient_groups
   end
 
   def edit

@@ -345,6 +345,32 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   font-size: 0.875em;
 }
 
+/* Food nutrients: card at most 800px tall; the table scrolls in its column, the group nav stays */
+.nutrient-card {
+  max-height: 800px;
+}
+
+.nutrient-body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.nutrient-pane {
+  overflow: auto;
+}
+
+.nutrient-pane thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  box-shadow: inset 0 -1px 0 var(--bs-border-color);
+}
+
+.nutrient-group-header > th {
+  --bs-table-bg: var(--sl-surface-muted);
+  font-weight: 600;
+}
+
 .text-pre-line {
   white-space: pre-line;
 }

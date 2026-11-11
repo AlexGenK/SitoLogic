@@ -57,3 +57,17 @@ uk:
       group: "Група"
       no_group: "Без групи"
       no_details: "Опису й коментаря немає."
+    nutrients:
+      title: "Нутрієнти"
+      per_100g: "Вміст на 100 г продукту"
+      count:
+        one: "%{count} показник"
+        few: "%{count} показники"
+        many: "%{count} показників"
+        other: "%{count} показника"
+      groups: "Групи нутрієнтів"
+      other_group: "Інше"
+      nutrient: "Нутрієнт"
+      amount: "Кількість"
+      unit: "Одиниця"
+      empty: "Даних про нутрієнти немає."

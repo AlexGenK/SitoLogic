@@ -16,6 +16,13 @@ class FoodTest < ActiveSupport::TestCase
     assert_equal [ "Такий код уже є в цьому джерелі." ], food.errors[:code]
   end
 
+  test "nutrient_groups skip zero amounts and follow group order with ungrouped last" do
+    groups = foods(:one).nutrient_groups
+    assert_equal [ "proximates", "vitamins", nil ], groups.map(&:first)
+    assert_equal %w[Білки Вода], groups.first.last.map { it.nutrient.long_name_ukr }.sort
+    assert_empty foods(:two).nutrient_groups
+  end
+
   test "name_ukr is required" do
     food = foods(:one)
     food.name_ukr = ""

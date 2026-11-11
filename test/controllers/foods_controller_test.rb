@@ -98,6 +98,27 @@ class FoodsControllerTest < ActionDispatch::IntegrationTest
     assert_select "dt", { text: "Коментар", count: 0 }
   end
 
+  test "show lists non-zero nutrients grouped per 100 g" do
+    get food_path(foods(:one))
+    assert_select "h2", "Нутрієнти"
+    assert_select ".card-header", /Вміст на 100 г продукту · 4 показники/
+    assert_equal [ "Основні показники", "Вітаміни", "Інше" ], css_select("tr.nutrient-group-header th").map(&:text)
+    assert_select "td", { text: "Жири", count: 0 }
+    assert_select "td", "Retinol"
+    assert_select "td.num", "85,5"
+    assert_select "td.num", "1 322 000"
+    assert_select "td.num", "0,004"
+    assert_select "td", "мкг"
+    assert_select "nav#nutrient-groups-nav a.nav-link[href=?]", "#nutrient-group-vitamins", text: /Вітаміни/
+    assert_select "tbody#nutrient-group-other"
+  end
+
+  test "show says when food has no nutrients" do
+    get food_path(foods(:two))
+    assert_select "p", "Даних про нутрієнти немає."
+    assert_select "#nutrient-groups-nav", 0
+  end
+
   test "show back link returns to the same list selection" do
     get food_path(foods(:one), q: "ябл", sources: [ "USD" ], page: 2)
     assert_select "a.btn[href=?]", foods_path(q: "ябл", sources: [ "USD" ], page: 2), text: "Назад до списку"
