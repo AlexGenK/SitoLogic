@@ -387,3 +387,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 .bg-fiber   { background-color: var(--sl-fiber) !important; }
 
 .text-accent { color: var(--sl-accent) !important; }
+
+/* Menus: dish label column and the chosen food in the picker */
+.menu-dish-label { min-width: 4.5rem; }
+.menu-food-list .list-group-item:has(:checked) { background-color: var(--bs-primary-bg-subtle); }
+.menu-food-energy { width: 5.5rem; }
+
+/* Menus: foods counted in the shown set of variants */
+.menu-variant-chosen {
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-bg: var(--bs-primary-bg-subtle);
+}

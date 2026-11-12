@@ -1,0 +1,22 @@
+<% if @foods.any? %>
+  <div class="d-flex small text-body-secondary px-3 pb-1">
+    <span class="flex-grow-1"><%= t(".name") %></span>
+    <span class="menu-food-energy text-end"><%= t(".energy") %></span>
+  </div>
+  <div class="list-group menu-food-list">
+    <% @foods.each do |food| %>
+      <% macros = @macros[food.id] %>
+      <label class="list-group-item list-group-item-action d-flex align-items-center gap-2">
+        <%= radio_button_tag "menu_item[food_id]", food.id, food.id == @selected_id, id: nil,
+              class: "form-check-input m-0 flex-shrink-0",
+              data: macros.transform_values { it&.to_f } %>
+        <span class="flex-grow-1"><%= food.name_ukr %></span>
+        <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= food.source_code %></span>
+        <span class="num small text-body-secondary menu-food-energy"><%= macros[:energy] ? grams(macros[:energy]) : "—" %></span>
+      </label>
+    <% end %>
+  </div>
+  <%= tag.p(t(".more", count: MenuItemsController::FOODS_LIMIT), class: "form-text mb-0") if @more %>
+<% else %>
+  <p class="text-body-secondary mb-0"><%= t(@query.present? ? ".not_found" : ".start") %></p>
+<% end %>

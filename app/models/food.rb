@@ -11,6 +11,20 @@ class Food < ApplicationRecord
   }
   scope :from_sources, ->(codes) { where(source_code: codes) }
 
+  # Per-100 g macros of the given foods: { food_id => { energy:, protein:, fat:, carbs: } }; missing values are nil
+  def self.macros(ids)
+    amounts = FoodNutrient.joins(:nutrient)
+      .where(food_id: ids, nutrients: { code: Nutrient::MACROS.values.flatten })
+      .pluck(:food_id, "nutrients.code", :amount)
+      .group_by(&:first)
+      .transform_values { |rows| rows.to_h { |_, code, amount| [ code, amount ] } }
+
+    ids.index_with do |id|
+      values = amounts.fetch(id, {})
+      Nutrient::MACROS.transform_values { |codes| values.values_at(*codes).compact.first }
+    end
+  end
+
   normalizes :code, :name_ukr, :group_code, with: ->(value) { value.strip.presence }
 
   validates :code, presence: true, uniqueness: { scope: :source_code }

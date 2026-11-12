@@ -28,7 +28,7 @@ export default class extends Controller {
     if (query.length > 0 && query.length < this.minLengthValue) return
 
     this.lastQuery = query
-    this.resetTarget.hidden = query === "" && !this.sourceTargets.some((source) => source.checked)
+    if (this.hasResetTarget) this.resetTarget.hidden = query === "" && !this.sourceTargets.some((source) => source.checked)
     this.element.requestSubmit()
   }
 

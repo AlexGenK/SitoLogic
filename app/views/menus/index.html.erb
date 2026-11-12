@@ -1,0 +1,47 @@
+<% content_for :title, "#{t(".title")} · SitoLogic" %>
+
+<div class="container-xl py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 mb-0"><%= t(".title") %></h1>
+    <%= link_to t(".new"), new_menu_path, class: "btn btn-primary" if @menus.any? %>
+  </div>
+
+  <% if @menus.any? %>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col"><%= t(".code") %></th>
+            <th scope="col"><%= t(".name") %></th>
+            <th scope="col" class="num"><%= t(".days") %></th>
+            <th scope="col" class="num"><%= t(".meals") %></th>
+            <th scope="col" class="num"><%= t(".items") %></th>
+            <th scope="col" class="num"><%= t(".variants") %></th>
+            <th scope="col"><span class="visually-hidden"><%= t(".actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @menus.each do |menu| %>
+            <tr>
+              <td class="code"><%= menu.code %></td>
+              <td><%= link_to menu.name, menu %></td>
+              <td class="num"><%= menu.days_count %></td>
+              <td class="num"><%= menu.meals_per_day %></td>
+              <td class="num"><%= menu.items_per_meal %></td>
+              <td class="num"><%= menu.variants_per_item %></td>
+              <td class="text-end">
+                <%= link_to edit_menu_path(menu), class: "btn btn-outline-secondary btn-sm",
+                      title: t(".edit"), aria: { label: t(".edit") } do %>
+                  <i class="bi bi-pencil" aria-hidden="true"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="text-body-secondary"><%= t(".empty") %></p>
+    <%= link_to t(".new"), new_menu_path, class: "btn btn-primary" %>
+  <% end %>
+</div>

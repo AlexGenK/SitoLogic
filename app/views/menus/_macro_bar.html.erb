@@ -1,0 +1,11 @@
+<%# Labelled split bar; split is { protein:, fat:, carbs: } in percent, by is :energy or :weight %>
+<div class="small text-body-secondary num text-start mt-2 mb-1">
+  <%= t("menus.macro_bar.#{by}", **split.transform_values(&:round)) %>
+</div>
+<div class="progress-stacked" style="height: .5rem">
+  <% split.each do |key, share| %>
+    <div class="progress" role="progressbar" aria-label="<%= t("menus.meal.#{key}") %>" style="width: <%= share %>%">
+      <div class="progress-bar bg-<%= key %>"></div>
+    </div>
+  <% end %>
+</div>

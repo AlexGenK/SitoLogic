@@ -13,6 +13,11 @@ class Menu < ApplicationRecord
   validates(*STRUCTURE.keys, numericality: { only_integer: true, greater_than: 0 })
   validate :structure_fits_items, on: :update
 
+  # Filled cells of a day keyed by [meal, position, variant]
+  def cells(day)
+    menu_items.where(day:).includes(:food).index_by { [ it.meal, it.position, it.variant ] }
+  end
+
   private
     # Не дає зменшити сітку, якщо заповнені клітинки опиняться за її межами.
     def structure_fits_items

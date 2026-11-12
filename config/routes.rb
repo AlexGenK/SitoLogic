@@ -14,4 +14,9 @@ Rails.application.routes.draw do
 
   resources :foods, only: [ :index, :show, :edit, :update ]
   resources :nutrients, only: [ :index, :show, :edit, :update ]
+  resources :menus, only: [ :index, :show, :new, :create, :edit, :update ] do
+    resources :menu_items, path: "items", only: [ :new, :create, :edit, :update, :destroy ] do
+      get :foods, on: :collection
+    end
+  end
 end

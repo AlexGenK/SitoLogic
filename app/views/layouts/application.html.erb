@@ -48,13 +48,26 @@
               <%= link_to t("nav.nutrients"), nutrients_path,
                     class: ["nav-link", { active: controller_name == "nutrients" }],
                     aria: { current: ("page" if controller_name == "nutrients") } %>
-            </li>  
+            </li>
+            <li class="nav-item">
+              <% menus_active = controller_name.in?(%w[menus menu_items]) %>
+              <%= link_to t("nav.menus"), menus_path,
+                    class: ["nav-link", { active: menus_active }],
+                    aria: { current: ("page" if menus_active) } %>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
 
     <%= render "flash" %>
+
+    <div class="modal fade" tabindex="-1" aria-hidden="true" data-controller="modal"
+         data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <%= turbo_frame_tag "modal", class: "modal-content", data: { modal_target: "frame" } %>
+      </div>
+    </div>
 
     <%= yield %>
   </body>

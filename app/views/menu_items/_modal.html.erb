@@ -1,0 +1,79 @@
+<% menu = menu_item.menu %>
+<div class="modal-header">
+  <div>
+    <h2 class="modal-title h5"><%= t(menu_item.new_record? ? ".add_title" : ".edit_title") %></h2>
+    <div class="small text-body-secondary">
+      <%= t(".cell", menu: menu.name, day: menu_item.day, meal: menu_item.meal,
+            position: menu_item.position, variant: menu_item.variant) %>
+    </div>
+  </div>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t(".close") %>"></button>
+</div>
+
+<div class="modal-body">
+  <%= form_with url: foods_menu_menu_items_path(menu), method: :get, class: "row g-2 mb-3", role: "search",
+        data: { controller: "search", action: "submit->search#cancel", turbo_frame: "menu_item_foods" } do |f| %>
+    <%= hidden_field_tag :selected, menu_item.food_id, id: nil %>
+    <div class="col">
+      <%= f.search_field :q, value: @query, class: "form-control", autofocus: true, autocomplete: "off",
+            placeholder: t(".search_placeholder"), aria: { label: t(".search_label") },
+            data: { search_target: "query", action: "input->search#search" } %>
+    </div>
+    <div class="col-auto dropdown"><%= render "foods/source_filter", sources: @sources, selected: @source_codes %></div>
+    <div class="col-auto"><%= f.submit t(".search"), name: nil, class: "btn btn-outline-secondary" %></div>
+  <% end %>
+
+  <%= form_with model: [ menu, menu_item ], id: "menu_item_form",
+        data: { modal_close: true, controller: "portion", portion_template_value: t(".portion"),
+                portion_share_templates_value: { energy: t("menus.macro_bar.energy"), weight: t("menus.macro_bar.weight") },
+                action: "change->portion#update input->portion#update turbo:frame-load->portion#update" } do |f| %>
+    <% if menu_item.new_record? %>
+      <% %i[day meal position variant].each do |attribute| %><%= f.hidden_field attribute %><% end %>
+    <% end %>
+
+    <% messages = menu_item.errors.messages_for(:food) + %i[day meal position variant].flat_map { menu_item.errors.messages_for(it) } %>
+    <% if messages.any? %>
+      <div class="alert alert-danger py-2"><%= safe_join(messages, tag.br) %></div>
+    <% end %>
+
+    <%= turbo_frame_tag "menu_item_foods" do %><%= render "foods" %><% end %>
+
+    <div class="row g-3 align-items-end border-top pt-3 mt-3">
+      <div class="col-sm-4">
+        <%= f.label :amount, class: "form-label" do %><%= t(".amount") %> <span class="required-mark">*</span><% end %>
+        <div class="input-group has-validation">
+          <%= f.number_field :amount, min: 0, step: "any",
+                class: [ "form-control num", { "is-invalid": menu_item.errors[:amount].any? } ],
+                data: { portion_target: "amount" } %>
+          <span class="input-group-text">г</span>
+          <%= tag.div(menu_item.errors[:amount].first, class: "invalid-feedback") if menu_item.errors[:amount].any? %>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="small text-body-secondary" aria-live="polite" data-portion-target="summary"></div>
+        <% %w[energy weight].each do |split| %>
+          <div class="small text-body-secondary mt-2 mb-1" data-portion-target="share" data-split="<%= split %>"></div>
+          <div class="progress-stacked" style="height: .5rem">
+            <% %w[protein fat carbs].each do |key| %>
+              <div class="progress" role="progressbar" aria-label="<%= t("menus.meal.#{key}") %>" style="width: 0"
+                   data-portion-target="segment" data-split="<%= split %>" data-key="<%= key %>">
+                <div class="progress-bar bg-<%= key %>"></div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="modal-footer">
+  <% if menu_item.persisted? %>
+    <%= button_to t(".delete"), menu_menu_item_path(menu, menu_item), method: :delete,
+          class: "btn btn-outline-danger", form_class: "me-auto",
+          form: { data: { modal_close: true, turbo_submits_with: t(".deleting") } } %>
+  <% end %>
+  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><%= t(".cancel") %></button>
+  <%= button_tag t(menu_item.new_record? ? ".add" : ".save"), type: "submit", form: "menu_item_form",
+        class: "btn btn-primary", data: { turbo_submits_with: t(".saving") } %>
+</div>

@@ -1,0 +1,32 @@
+<% content_for :title, "#{@menu.name} · SitoLogic" %>
+
+<div class="container-xl py-4">
+  <%= link_to menus_path, class: "btn btn-outline-secondary btn-sm mb-3" do %>
+    <i class="bi bi-arrow-left" aria-hidden="true"></i> <%= t(".back") %>
+  <% end %>
+
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <h1 class="h3 mb-0"><%= @menu.name %></h1>
+    <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= @menu.code %></span>
+    <%= link_to edit_menu_path(@menu), class: "btn btn-outline-secondary ms-auto" do %>
+      <i class="bi bi-pencil" aria-hidden="true"></i> <%= t(".edit") %>
+    <% end %>
+  </div>
+
+  <nav aria-label="<%= t(".days") %>" class="mb-3">
+    <ul class="nav nav-pills flex-wrap gap-1">
+      <% 1.upto(@menu.days_count) do |day| %>
+        <li class="nav-item">
+          <%= link_to t(".day", number: day), menu_path(@menu, day:),
+                class: ["nav-link", { active: day == @day }], aria: { current: ("page" if day == @day) } %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <div class="row row-cols-1 row-cols-lg-2 g-3">
+    <% 1.upto(@menu.meals_per_day) do |meal| %>
+      <div class="col"><%= render "meal", menu: @menu, day: @day, meal:, cells: @cells %></div>
+    <% end %>
+  </div>
+</div>

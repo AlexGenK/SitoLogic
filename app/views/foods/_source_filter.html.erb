@@ -1,0 +1,17 @@
+<button type="button" class="btn btn-outline-secondary dropdown-toggle"
+        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+  <%= t(".sources") %>
+  <% if selected.any? %>
+    <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= selected.size %></span>
+  <% end %>
+</button>
+<div class="dropdown-menu source-filter-menu">
+  <% sources.each do |source| %>
+    <label class="dropdown-item d-flex align-items-center gap-2">
+      <%= check_box_tag "sources[]", source.code, selected.include?(source.code),
+            id: nil, class: "form-check-input m-0 flex-shrink-0", data: { search_target: "source" } %>
+      <span class="text-truncate" title="<%= source.display_name %>"><%= source.display_name %></span>
+      <span class="num small text-body-secondary ms-auto"><%= source.foods_count %></span>
+    </label>
+  <% end %>
+</div>

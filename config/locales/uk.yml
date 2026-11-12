@@ -36,7 +36,10 @@ uk:
           attributes:
             variant:
               taken: "Ця клітинка меню вже заповнена."
+            food:
+              required: "Оберіть продукт."
   nav:
+    menus: "Меню"
     nutrients: "Нутрієнти"
     foods: "Продукти"
     toggle: "Перемкнути навігацію"
@@ -44,7 +47,6 @@ uk:
     index:
       title: "Продукти"
       source_code: "Джерело"
-      sources: "Джерела"
       code: "Код"
       name: "Назва"
       empty: "Продуктів ще немає."
@@ -73,6 +75,8 @@ uk:
       saving: "Збереження…"
     update:
       saved: "Продукт збережено."
+    source_filter:
+      sources: "Джерела"
     show:
       edit: "Редагувати продукт"
       back: "Назад до списку"
@@ -123,3 +127,82 @@ uk:
       saving: "Збереження…"
     update:
       saved: "Нутрієнт збережено."
+  menus:
+    index:
+      title: "Меню"
+      new: "Створити меню"
+      empty: "Меню ще немає."
+      code: "Код"
+      name: "Назва"
+      days: "Днів"
+      meals: "Прийомів їжі"
+      items: "Страв"
+      variants: "Варіантів"
+      actions: "Дії"
+      edit: "Редагувати меню"
+    show:
+      back: "Назад до списку"
+      edit: "Редагувати меню"
+      days: "Дні меню"
+      day: "День %{number}"
+    macro_bar:
+      energy: "Частка енергії: Б %{protein} % · Ж %{fat} % · В %{carbs} %"
+      weight: "Частка маси: Б %{protein} % · Ж %{fat} % · В %{carbs} %"
+    meal:
+      title: "Прийом їжі %{number}"
+      dish: "Страва %{number}"
+      add_food: "Додати продукт"
+      add_variant: "Додати варіант"
+      totals: "%{energy} ккал · Б %{protein} · Ж %{fat} · В %{carbs} г"
+      variant_set: "Варіант %{number} з %{count}"
+      previous_variant: "Попередній варіант"
+      next_variant: "Наступний варіант"
+      fallback: "Без варіанта %{number} (страви %{dishes}) враховано перший варіант."
+      protein: "Білки"
+      fat: "Жири"
+      carbs: "Вуглеводи"
+    new:
+      title: "Нове меню"
+      back: "Назад до списку"
+    edit:
+      title: "Редагування меню"
+      back: "Назад до меню"
+    form:
+      code: "Код"
+      name: "Назва"
+      structure: "Структура"
+      days_count: "Кількість днів"
+      meals_per_day: "Прийомів їжі на день"
+      items_per_meal: "Страв на прийом"
+      variants_per_item: "Варіантів на страву"
+      structure_hint: "Сітку можна збільшити будь-коли, а зменшити — лише якщо за новою межею немає страв."
+      cancel: "Скасувати"
+      save: "Зберегти меню"
+      saving: "Збереження…"
+    create:
+      created: "Меню створено."
+    update:
+      saved: "Меню збережено."
+  menu_items:
+    modal:
+      add_title: "Додати продукт"
+      edit_title: "Змінити продукт"
+      cell: "%{menu} · День %{day} · Прийом їжі %{meal} · Страва %{position} · Варіант %{variant}"
+      close: "Закрити"
+      search_label: "Пошук продукту"
+      search_placeholder: "Частина назви"
+      search: "Знайти"
+      amount: "Вага"
+      portion: "%{energy} ккал · Б %{protein} · Ж %{fat} · В %{carbs} г"
+      cancel: "Скасувати"
+      add: "Додати продукт"
+      save: "Зберегти"
+      saving: "Збереження…"
+      delete: "Видалити"
+      deleting: "Видалення…"
+    foods:
+      name: "Назва"
+      energy: "ккал/100 г"
+      start: "Почніть вводити назву продукту."
+      not_found: "Нічого не знайдено."
+      more: "Показано перші %{count}. Уточніть запит."

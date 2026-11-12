@@ -49,7 +49,9 @@ Fixed for charts, progress bars and markers. Text next to them keeps the normal 
 | Fibre | Клітковина | `#37b24d` | `.bg-fiber`, `.text-fiber` |
 | Energy | Енергія, ккал | `primary` or neutral | |
 
-Macronutrient split bar:
+Macronutrient split bars come in pairs, each with a label line above it: the energy share
+(4 / 9 / 4 kcal per gram, «Частка енергії: Б 19 % · Ж 41 % · В 40 %») and the weight share
+(«Частка маси: Б 25 % · Ж 24 % · В 52 %»). Shares are rounded to whole percent. Markup of one bar:
 
 ```erb
 <div class="progress-stacked" style="height: .5rem">
@@ -86,7 +88,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 - Reference codes (source, group type, group code): `.code`, or a soft badge `badge bg-primary-subtle text-primary-emphasis`.
 - Radius: `.5rem` controls, `.75rem` cards and modals, `rounded-pill` badges.
 - Shadows: none on cards (border only); dropdowns and modals keep Bootstrap's.
-- Icons: Bootstrap Icons, always together with text. Icon-only buttons are allowed only in table rows and must have `title` and `aria-label`.
+- Icons: Bootstrap Icons, always together with text. Icon-only buttons are allowed only in table rows and in the ‹ › arrows of a switcher, and must have `title` and `aria-label`.
 
 ## Layout and navigation
 
@@ -149,7 +151,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 - Tables: `table table-hover align-middle` inside `table-responsive`. The header is tinted by the theme. Totals row is `fw-semibold`. Long lists: sticky header and pagination below; search and filters in a row above the table.
 - Multi-value filters: a `dropdown` with checkboxes in the filter row (`data-bs-auto-close="outside"`), the number of selected values in a soft badge on the button, applied by the form's submit button.
 - Grouped reference lists (a food's nutrients): a card at most 800px tall (`.nutrient-card`). The group nav (`nav nav-pills flex-column` in a `col-lg-3` column, hidden below `lg`) stays in place; the table scrolls inside its own column with a sticky header and one tinted group row (`tr.nutrient-group-header`) per group. The `scrollspy` Stimulus controller highlights the group at the top of the table and scrolls the table, not the page, to a clicked group. The basis («Вміст на 100 г продукту») is stated in the card header. Zero amounts are never shown.
-- Menus and diets are cards: day → meals → dishes. A meal card ends with the macronutrient split bar.
+- Menus and diets are cards: day → meals → dishes. A meal card ends with the totals and the pair of macronutrient split bars. When dishes have several variants, ‹ › arrows switch the totals between variant sets («Варіант 2 з 3»): variant N of every dish, or its first variant when it has none; the counted foods are outlined in primary.
 - Flash messages: success as a toast in the top-right corner, hidden after 4 s; errors as an inline `alert` that stays.
 - Empty states: one short sentence and the main button («Меню ще немає» → «Створити меню»).
 

@@ -1,0 +1,68 @@
+<% sets = meal_variant_sets(cells.values.select { it.meal == meal }, menu.variants_per_item) %>
+<% switchable = sets.size > 1 %>
+<%= tag.div id: meal_dom_id(menu, day, meal), class: "card h-100",
+      data: ({ controller: "meal-variants",
+               meal_variants_label_value: t("menus.meal.variant_set", number: "%{number}", count: sets.size) } if switchable) do %>
+  <div class="card-header"><h2 class="h6 mb-0"><%= t("menus.meal.title", number: meal) %></h2></div>
+
+  <ul class="list-group list-group-flush">
+    <% 1.upto(menu.items_per_meal) do |position| %>
+      <% items = (1..menu.variants_per_item).filter_map { |variant| cells[[ meal, position, variant ]] } %>
+      <% free = (1..menu.variants_per_item).find { |variant| !cells.key?([ meal, position, variant ]) } %>
+      <li class="list-group-item d-flex flex-wrap align-items-center gap-2">
+        <span class="text-body-secondary menu-dish-label"><%= t("menus.meal.dish", number: position) %></span>
+        <% items.each do |item| %>
+          <%= link_to edit_menu_menu_item_path(menu, item),
+                class: [ "btn btn-sm btn-outline-secondary", { "menu-variant-chosen": switchable && sets.first[:item_ids].include?(item.id) } ],
+                data: { turbo_frame: "modal", meal_variants_target: "chip", item_id: item.id } do %>
+            <%= item.food.name_ukr %> · <span class="num"><%= grams(item.amount) %></span> г
+          <% end %>
+        <% end %>
+        <% if free %>
+          <%= link_to new_menu_menu_item_path(menu, day:, meal:, position:, variant: free),
+                class: "btn btn-sm btn-link", data: { turbo_frame: "modal" } do %>
+            <i class="bi bi-plus-lg" aria-hidden="true"></i> <%= t(items.any? ? "menus.meal.add_variant" : "menus.meal.add_food") %>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <% if sets.first[:item_ids].any? %>
+    <div class="card-footer bg-transparent">
+      <% if switchable %>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-action="meal-variants#previous"
+                  title="<%= t("menus.meal.previous_variant") %>" aria-label="<%= t("menus.meal.previous_variant") %>">
+            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+          </button>
+          <span class="small fw-semibold" aria-live="polite" data-meal-variants-target="label">
+            <%= t("menus.meal.variant_set", number: 1, count: sets.size) %>
+          </span>
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-action="meal-variants#next"
+                  title="<%= t("menus.meal.next_variant") %>" aria-label="<%= t("menus.meal.next_variant") %>">
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      <% end %>
+
+      <% sets.each_with_index do |set, index| %>
+        <% totals = set[:totals] %>
+        <% energy_split = macro_split(totals) %>
+        <%= tag.div hidden: index.positive?, data: { meal_variants_target: "set", items: set[:item_ids].to_json } do %>
+          <div class="small text-body-secondary num text-start">
+            <%= t("menus.meal.totals", energy: grams(totals[:energy]), protein: grams(totals[:protein]),
+                  fat: grams(totals[:fat]), carbs: grams(totals[:carbs])) %>
+          </div>
+          <% if energy_split.any? %>
+            <%= render "menus/macro_bar", split: energy_split, by: :energy %>
+            <%= render "menus/macro_bar", split: macro_split(totals, by: :weight), by: :weight %>
+          <% end %>
+          <% if set[:fallback].any? %>
+            <div class="form-text"><%= t("menus.meal.fallback", number: index + 1, dishes: set[:fallback].join(", ")) %></div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

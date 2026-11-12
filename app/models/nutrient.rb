@@ -29,6 +29,9 @@ class Nutrient < ApplicationRecord
     ui: "МО",
     kg_per_l: "кг/л"
   }.freeze
+  # Codes of the macronutrients shown in menus, in order of preference:
+  # carbohydrates fall back from 105 (available) to 156 (by difference)
+  MACROS = { energy: %w[107], protein: %w[103], fat: %w[104], carbs: %w[105 156] }.freeze
 
   has_many :food_nutrients, dependent: :restrict_with_error
   has_many :foods, through: :food_nutrients

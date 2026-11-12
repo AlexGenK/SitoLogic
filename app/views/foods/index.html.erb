@@ -11,23 +11,7 @@
             autocomplete: "off", data: { search_target: "query", action: "input->search#search" } %>
     </div>
     <div class="col-auto dropdown">
-      <button type="button" class="btn btn-outline-secondary dropdown-toggle"
-              data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-        <%= t(".sources") %>
-        <% if @source_codes.any? %>
-          <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= @source_codes.size %></span>
-        <% end %>
-      </button>
-      <div class="dropdown-menu source-filter-menu">
-        <% @sources.each do |source| %>
-          <label class="dropdown-item d-flex align-items-center gap-2">
-            <%= check_box_tag "sources[]", source.code, @source_codes.include?(source.code),
-                  id: nil, class: "form-check-input m-0 flex-shrink-0", data: { search_target: "source" } %>
-            <span class="text-truncate" title="<%= source.display_name %>"><%= source.display_name %></span>
-            <span class="num small text-body-secondary ms-auto"><%= source.foods_count %></span>
-          </label>
-        <% end %>
-      </div>
+      <%= render "source_filter", sources: @sources, selected: @source_codes %>
     </div>
     <div class="col-auto d-flex gap-2">
       <%= f.submit t(".search"), name: nil, class: "btn btn-primary", data: { turbo_frame: "_top" } %>
