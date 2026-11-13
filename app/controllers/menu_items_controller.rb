@@ -42,6 +42,11 @@ class MenuItemsController < ApplicationController
     find_foods(selected_id: params[:selected].presence&.to_i)
   end
 
+  # Nutrient panel of the chosen food, loaded into the menu_item_nutrients frame
+  def nutrients
+    @food = Food.find(params[:food_id])
+  end
+
   private
     def set_menu
       @menu = Menu.find(params[:menu_id])

@@ -142,7 +142,9 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 ## Modals
 
 - Used for confirmations and quick actions (picking a food for a dish, editing a portion). Long editing goes to a separate page.
-- `modal-dialog-centered`; default size for confirmations, `modal-lg modal-dialog-scrollable` for pickers with search.
+- `modal-dialog-centered`; default size for confirmations, `modal-lg modal-dialog-scrollable` for pickers with search,
+  `modal-xl` for a picker with a detail panel of the chosen item on the right (the menu food picker shows the food's
+  nutrients per 100 g there). The content sets the size with `data-modal-size` on its root; `lg` when it is absent.
 - White header with a question as the title («Видалити страву?»), the body says exactly what will happen, footer buttons follow the button rules.
 - Content is loaded through a Turbo Frame and opened by a Stimulus controller; modals are not duplicated in every page's markup.
 

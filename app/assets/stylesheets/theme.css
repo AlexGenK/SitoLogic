@@ -399,3 +399,17 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   --bs-btn-border-color: var(--bs-primary);
   --bs-btn-bg: var(--bs-primary-bg-subtle);
 }
+
+/* Menus: nutrient panel of the chosen food in the picker; the table scrolls, its header stays */
+.menu-nutrient-pane { max-height: max(12rem, calc(100dvh - 20rem)); overflow-y: auto; }
+.menu-nutrient-pane thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  box-shadow: inset 0 -1px 0 var(--bs-border-color);
+}
+
+/* The nutrient panel stays at the top of the modal body when the body itself has to scroll */
+@media (min-width: 992px) {
+  .menu-picker-aside { position: sticky; top: 0; align-self: flex-start; }
+}

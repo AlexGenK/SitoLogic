@@ -1,0 +1,42 @@
+<% if food %>
+  <% nutrient_groups = food.nutrient_groups %>
+  <% total = nutrient_groups.sum { |_, food_nutrients| food_nutrients.size } %>
+  <div class="fw-semibold"><%= food.name_ukr %></div>
+  <div class="small text-body-secondary mb-2">
+    <span class="code"><%= food.source_code %> <%= food.code %></span>
+    <% if total.positive? %> · <%= t("foods.nutrients.per_100g") %> · <%= t("foods.nutrients.count", count: total) %><% end %>
+  </div>
+
+  <% if total.zero? %>
+    <p class="text-body-secondary mb-0"><%= t("foods.nutrients.empty") %></p>
+  <% else %>
+    <div class="menu-nutrient-pane border rounded">
+      <table class="table table-sm align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col"><%= t("foods.nutrients.nutrient") %></th>
+            <th scope="col" class="num"><%= t("foods.nutrients.amount") %></th>
+          </tr>
+        </thead>
+        <% nutrient_groups.each do |_, food_nutrients| %>
+          <tbody>
+            <tr class="nutrient-group-header">
+              <th scope="colgroup" colspan="2"><%= food_nutrients.first.nutrient.group_ukr || t("foods.nutrients.other_group") %></th>
+            </tr>
+            <% food_nutrients.each do |food_nutrient| %>
+              <tr>
+                <td><%= food_nutrient.nutrient.display_name %></td>
+                <td class="num">
+                  <%= nutrient_amount(food_nutrient.amount) %>
+                  <span class="text-body-secondary"><%= food_nutrient.nutrient.unit_ukr %></span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+<% else %>
+  <p class="text-body-secondary mb-0"><%= t("menu_items.nutrients.choose") %></p>
+<% end %>

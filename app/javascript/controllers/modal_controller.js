@@ -4,7 +4,7 @@ import { Modal } from "bootstrap"
 // The shared modal: links with data-turbo-frame="modal" load content into its frame and open it;
 // a form marked data-modal-close closes it after a successful submit
 export default class extends Controller {
-  static targets = [ "frame" ]
+  static targets = [ "frame", "dialog" ]
 
   connect() {
     this.modal = Modal.getOrCreateInstance(this.element)
@@ -19,7 +19,13 @@ export default class extends Controller {
   }
 
   open(event) {
-    if (event.target === this.frameTarget) this.modal.show()
+    if (event.target !== this.frameTarget) return
+
+    // The content picks the dialog size with data-modal-size on its root (lg by default)
+    const size = this.frameTarget.querySelector("[data-modal-size]")?.dataset.modalSize || "lg"
+    this.dialogTarget.classList.remove("modal-lg", "modal-xl")
+    this.dialogTarget.classList.add(`modal-${size}`)
+    this.modal.show()
   }
 
   close(event) {

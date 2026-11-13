@@ -72,4 +72,25 @@ class MenuItemsControllerTest < ActionDispatch::IntegrationTest
     get edit_menu_menu_item_path(other, menu_items(:one))
     assert_response :not_found
   end
+
+  test "new asks to choose a food in the nutrient panel" do
+    get new_menu_menu_item_path(@menu, day: 2, meal: 1, position: 2, variant: 1)
+    assert_select ".modal-body[data-modal-size=xl][data-controller=food-details]"
+    assert_select "turbo-frame#menu_item_nutrients p", "Оберіть продукт, щоб побачити його нутрієнти."
+  end
+
+  test "edit shows non-zero nutrients of the current food" do
+    get edit_menu_menu_item_path(@menu, menu_items(:one))
+    assert_select "turbo-frame#menu_item_nutrients", /USD 09003 · Вміст на 100 г продукту · 4 показники/
+    assert_select "#menu_item_nutrients .nutrient-group-header th", "Вітаміни"
+    assert_select "#menu_item_nutrients td", "Retinol"
+    assert_select "#menu_item_nutrients td", { text: "Жири", count: 0 }
+  end
+
+  test "nutrients renders the panel of the chosen food" do
+    get nutrients_menu_menu_items_path(@menu, food_id: foods(:two).id)
+    assert_response :success
+    assert_select "turbo-frame#menu_item_nutrients", /Банан/
+    assert_select "turbo-frame#menu_item_nutrients p", "Даних про нутрієнти немає."
+  end
 end

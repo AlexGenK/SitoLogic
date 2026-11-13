@@ -10,7 +10,11 @@
   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t(".close") %>"></button>
 </div>
 
-<div class="modal-body">
+<div class="modal-body" data-modal-size="xl" data-controller="food-details"
+     data-food-details-url-value="<%= nutrients_menu_menu_items_path(menu) %>"
+     data-action="change->food-details#load">
+  <div class="row g-4">
+    <div class="col-lg-7">
   <%= form_with url: foods_menu_menu_items_path(menu), method: :get, class: "row g-2 mb-3", role: "search",
         data: { controller: "search", action: "submit->search#cancel", turbo_frame: "menu_item_foods" } do |f| %>
     <%= hidden_field_tag :selected, menu_item.food_id, id: nil %>
@@ -65,6 +69,14 @@
       </div>
     </div>
   <% end %>
+    </div>
+
+    <div class="col-lg-5 menu-picker-aside">
+      <%= turbo_frame_tag "menu_item_nutrients", data: { food_details_target: "frame" } do %>
+        <%= render "nutrients", food: menu_item.food %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <div class="modal-footer">
