@@ -392,6 +392,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 .menu-dish-label { min-width: 4.5rem; }
 .menu-food-list .list-group-item:has(:checked) { background-color: var(--bs-primary-bg-subtle); }
 .menu-food-energy { width: 5.5rem; }
+.menu-food-code { min-width: 4rem; }
 
 /* Menus: foods counted in the shown set of variants */
 .menu-variant-chosen {

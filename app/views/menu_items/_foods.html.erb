@@ -12,6 +12,7 @@
               data: macros.transform_values { it&.to_f } %>
         <span class="flex-grow-1"><%= food.name_ukr %></span>
         <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= food.source_code %></span>
+        <span class="code small text-body-secondary menu-food-code"><%= food.code %></span>
         <span class="num small text-body-secondary menu-food-energy"><%= macros[:energy] ? grams(macros[:energy]) : "—" %></span>
       </label>
     <% end %>

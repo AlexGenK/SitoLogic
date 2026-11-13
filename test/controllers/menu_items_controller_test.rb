@@ -16,6 +16,7 @@ class MenuItemsControllerTest < ActionDispatch::IntegrationTest
     get foods_menu_menu_items_path(@menu, q: "ябл")
     assert_select "turbo-frame#menu_item_foods input[name='menu_item[food_id]'][value=?]", foods(:one).id.to_s
     assert_select "input[data-protein='0.3']"
+    assert_select ".menu-food-list .code", "09003"
 
     get foods_menu_menu_items_path(@menu, q: "ябл", sources: [ "UKN" ])
     assert_select "p", "Нічого не знайдено."
@@ -47,6 +48,7 @@ class MenuItemsControllerTest < ActionDispatch::IntegrationTest
     get edit_menu_menu_item_path(@menu, menu_items(:one))
     assert_select "h2", "Змінити продукт"
     assert_select "input[checked][name='menu_item[food_id]'][value=?]", foods(:one).id.to_s
+    assert_select ".menu-food-list label:has(input[checked]) .code", "09003"
     assert_select "input[name='menu_item[amount]'][value='150.0']"
     assert_select "form[data-modal-close] button.btn-outline-danger", "Видалити"
   end
