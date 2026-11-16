@@ -64,4 +64,15 @@ class FoodTest < ActiveSupport::TestCase
     assert_equal [ foods(:two) ], Food.search_by_name_ukr("НАН  ба").to_a
     assert_empty Food.search_by_name_ukr("бан ябл")
   end
+
+  test "macros take carbohydrates by weight when the monosaccharide equivalent is missing" do
+    by_weight = Nutrient.create!(code: "155", long_name_en: "Available Carbohydrate (weight)",
+      med_name_ukr: "Вуглеводи (маса)", long_name_ukr: "Засвоювані вуглеводи (за масою)", unit: :g)
+    by_difference = Nutrient.create!(code: "156", long_name_en: "Total Carbohydrate by difference",
+      med_name_ukr: "Вуглеводи (різниця)", long_name_ukr: "Загальні вуглеводи за різницею (США)", unit: :g)
+    foods(:one).food_nutrients.create!(nutrient: by_weight, amount: 12.5)
+    foods(:one).food_nutrients.create!(nutrient: by_difference, amount: 14)
+
+    assert_equal 12.5, Food.macros([ foods(:one).id ])[foods(:one).id][:carbs]
+  end
 end
