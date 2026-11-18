@@ -86,4 +86,36 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_select ".invalid-feedback", "У меню є страви в днях за межами нової кількості."
     assert_equal 7, menus(:one).reload.days_count
   end
+
+  test "show lays meals in one column with a nutrient panel per meal" do
+    get menu_path(menus(:one), day: 7)
+    assert_select "[data-controller=meal-nutrients] .col-lg-8 .card", 4
+    assert_select "section[data-meal-nutrients-target=panel]", 4
+    assert_select "section[data-meal-nutrients-target=panel][hidden]", 3
+    assert_select ".card.menu-meal-selected[data-meal='1'] button.menu-nutrients-toggle", /Нутрієнти/
+  end
+
+  test "show sums nutrients of a meal per variant set" do
+    get menu_path(menus(:one), day: 7)
+    panel = "#meal_nutrients_7_1_menu_#{menus(:one).id}"
+    assert_select "#{panel} [data-variant]", 2
+    assert_select "#{panel} [data-variant='0']", /Варіант 1 з 2 · 4 показники/
+    assert_select "#{panel} [data-variant='0'] td", "Вода"
+    assert_select "#{panel} [data-variant='0'] td.num", /128 г/
+    assert_select "#{panel} [data-variant='0'] td.num", /1 980 000 мкг/
+    assert_select "#{panel} td", { text: "Жири", count: 0 }
+  end
+
+  test "show marks sums that only part of the foods have" do
+    menus(:one).menu_items.create!(day: 7, meal: 1, position: 2, variant: 1, food: foods(:two), amount: 100)
+    get menu_path(menus(:one), day: 7)
+    assert_select "#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .badge", "1/2"
+    assert_select "#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .badge[title=?]", "Немає даних:\nБанан (UKN 09040)"
+    assert_select "#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .form-text", /сума може бути заниженою/
+  end
+
+  test "show says when a meal has no foods" do
+    get menu_path(menus(:one), day: 7)
+    assert_select "#meal_nutrients_7_2_menu_#{menus(:one).id} p", "У цьому прийомі їжі ще немає продуктів."
+  end
 end

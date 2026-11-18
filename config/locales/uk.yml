@@ -145,6 +145,14 @@ uk:
       edit: "Редагувати меню"
       days: "Дні меню"
       day: "День %{number}"
+      nutrients_title: "Сума нутрієнтів"
+    meal_nutrients:
+      nutrient: "Нутрієнт"
+      amount: "Сума"
+      no_foods: "У цьому прийомі їжі ще немає продуктів."
+      no_data: "Даних про нутрієнти немає."
+      missing: "Немає даних:\n%{foods}"
+      legend: "«2/3» — значення є лише для частини продуктів, сума може бути заниженою."
     macro_bar:
       energy: "Частка енергії: Б %{protein} % · Ж %{fat} % · В %{carbs} %"
       weight: "Частка маси: Б %{protein} % · Ж %{fat} % · В %{carbs} %"
@@ -158,6 +166,7 @@ uk:
       previous_variant: "Попередній варіант"
       next_variant: "Наступний варіант"
       fallback: "Без варіанта %{number} (страви %{dishes}) враховано перший варіант."
+      nutrients: "Нутрієнти"
       protein: "Білки"
       fat: "Жири"
       carbs: "Вуглеводи"

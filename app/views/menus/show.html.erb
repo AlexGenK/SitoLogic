@@ -24,9 +24,22 @@
     </ul>
   </nav>
 
-  <div class="row row-cols-1 row-cols-lg-2 g-3">
-    <% 1.upto(@menu.meals_per_day) do |meal| %>
-      <div class="col"><%= render "meal", menu: @menu, day: @day, meal:, cells: @cells %></div>
-    <% end %>
+  <div class="row g-3" data-controller="meal-nutrients" data-meal-nutrients-meal-value="1"
+       data-action="meal-variants:change->meal-nutrients#sync">
+    <div class="col-lg-8 d-flex flex-column gap-3">
+      <% 1.upto(@menu.meals_per_day) do |meal| %>
+        <%= render "meal", menu: @menu, day: @day, meal:, cells: @cells %>
+      <% end %>
+    </div>
+    <div class="col-lg-4">
+      <div class="card menu-nutrients-aside">
+        <div class="card-header"><%= t(".nutrients_title") %></div>
+        <div class="card-body">
+          <% 1.upto(@menu.meals_per_day) do |meal| %>
+            <%= render "meal_nutrients", menu: @menu, day: @day, meal:, cells: @cells %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

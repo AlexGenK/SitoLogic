@@ -423,3 +423,10 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 @media (min-width: 992px) {
   .menu-picker-aside { position: sticky; top: 0; align-self: flex-start; }
 }
+
+/* Menus: the chosen meal and the nutrient panel that stays beside the cards */
+.menu-meal-selected { --bs-card-border-color: var(--bs-primary); }
+.menu-meal-selected .menu-nutrients-toggle { background-color: var(--bs-primary-bg-subtle); border-radius: 50rem; }
+@media (min-width: 992px) {
+  .menu-nutrients-aside { position: sticky; top: 4.5rem; }
+}

@@ -1,0 +1,52 @@
+<% items = cells.values.select { it.meal == meal } %>
+<% sets = meal_nutrient_sets(items, menu.variants_per_item) %>
+<%= tag.section id: meal_nutrients_dom_id(menu, day, meal), hidden: meal != 1,
+      data: { meal_nutrients_target: "panel", meal: } do %>
+  <h2 class="h6 mb-0"><%= t("menus.meal.title", number: meal) %></h2>
+
+  <% sets.each_with_index do |groups, index| %>
+    <% total = groups.sum { |_, rows| rows.size } %>
+    <% incomplete = groups.any? { |_, rows| rows.any? { |_, _, counted, size| counted < size } } %>
+    <%= tag.div hidden: index.positive?, data: { variant: index } do %>
+      <div class="small text-body-secondary mb-2">
+        <% if sets.size > 1 %><%= t("menus.meal.variant_set", number: index + 1, count: sets.size) %> · <% end %>
+        <%= t("foods.nutrients.count", count: total) if total.positive? %>
+      </div>
+
+      <% if total.zero? %>
+        <p class="text-body-secondary mb-0"><%= t(items.empty? ? ".no_foods" : ".no_data") %></p>
+      <% else %>
+        <div class="menu-nutrient-pane border rounded">
+          <table class="table table-sm align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col"><%= t(".nutrient") %></th>
+                <th scope="col" class="num"><%= t(".amount") %></th>
+              </tr>
+            </thead>
+            <% groups.each do |group, rows| %>
+              <tbody>
+                <tr class="nutrient-group-header">
+                  <th scope="colgroup" colspan="2"><%= rows.first.first.group_ukr || t("foods.nutrients.other_group") %></th>
+                </tr>
+                <% rows.each do |nutrient, amount, counted, size, missing| %>
+                  <tr>
+                    <td><%= nutrient.display_name %></td>
+                    <td class="num">
+                      <%= nutrient_sum(amount) %> <span class="text-body-secondary"><%= nutrient.unit_ukr %></span>
+                      <% if counted < size %>
+                        <span class="badge bg-warning-subtle text-warning-emphasis"
+                              title="<%= t(".missing", foods: missing.map { "#{it.name_ukr} (#{it.source_code} #{it.code})" }.join("\n")) %>"><%= counted %>/<%= size %></span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            <% end %>
+          </table>
+        </div>
+        <%= tag.div(t(".legend"), class: "form-text") if incomplete %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

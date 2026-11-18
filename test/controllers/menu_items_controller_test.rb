@@ -35,6 +35,7 @@ class MenuItemsControllerTest < ActionDispatch::IntegrationTest
         day: 2, meal: 1, position: 1, variant: 1, food_id: foods(:two).id, amount: 120 } }
     end
     assert_turbo_stream action: "replace", target: "meal_2_1_menu_#{@menu.id}"
+    assert_turbo_stream action: "replace", target: "meal_nutrients_2_1_menu_#{@menu.id}"
   end
 
   test "create without food and weight shows errors in the modal" do

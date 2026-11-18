@@ -28,5 +28,7 @@ export default class extends Controller {
       if (chosen && this.userSwitched) chip.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" })
     })
     if (this.hasLabelTarget) this.labelTarget.textContent = this.labelValue.replace("%{number}", this.indexValue + 1)
+    // Tell the page which set is shown, so the meal's nutrient panel can follow
+    this.dispatch("change", { detail: { meal: Number(this.element.dataset.meal), index: this.indexValue } })
   }
 }

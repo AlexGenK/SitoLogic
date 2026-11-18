@@ -84,10 +84,13 @@ class MenuItemsController < ApplicationController
     # Replaces the card of the changed meal; the modal closes on the successful submit
     def respond_with_meal
       day, meal = @menu_item.day, @menu_item.meal
+      locals = { menu: @menu, day:, meal:, cells: @menu.cells(day) }
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(helpers.meal_dom_id(@menu, day, meal),
-            partial: "menus/meal", locals: { menu: @menu, day:, meal:, cells: @menu.cells(day) })
+          render turbo_stream: [
+            turbo_stream.replace(helpers.meal_dom_id(@menu, day, meal), partial: "menus/meal", locals:),
+            turbo_stream.replace(helpers.meal_nutrients_dom_id(@menu, day, meal), partial: "menus/meal_nutrients", locals:)
+          ]
         end
         format.html { redirect_to menu_path(@menu, day:) }
       end

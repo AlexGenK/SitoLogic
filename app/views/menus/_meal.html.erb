@@ -1,9 +1,16 @@
 <% sets = meal_variant_sets(cells.values.select { it.meal == meal }, menu.variants_per_item) %>
 <% switchable = sets.size > 1 %>
-<%= tag.div id: meal_dom_id(menu, day, meal), class: "card h-100",
-      data: ({ controller: "meal-variants",
-               meal_variants_label_value: t("menus.meal.variant_set", number: "%{number}", count: sets.size) } if switchable) do %>
-  <div class="card-header"><h2 class="h6 mb-0"><%= t("menus.meal.title", number: meal) %></h2></div>
+<% data = { meal:, meal_nutrients_target: "card" } %>
+<% data.merge!(controller: "meal-variants", meal_variants_label_value: t("menus.meal.variant_set", number: "%{number}", count: sets.size)) if switchable %>
+<%= tag.div id: meal_dom_id(menu, day, meal), class: [ "card", { "menu-meal-selected": meal == 1 } ], data: do %>
+  <div class="card-header d-flex align-items-center gap-2">
+    <h2 class="h6 mb-0"><%= t("menus.meal.title", number: meal) %></h2>
+    <button type="button" class="btn btn-sm btn-link ms-auto py-0 menu-nutrients-toggle"
+            data-action="meal-nutrients#select" data-meal-nutrients-meal-param="<%= meal %>"
+            aria-controls="<%= meal_nutrients_dom_id(menu, day, meal) %>">
+      <%= t("menus.meal.nutrients") %> <i class="bi bi-chevron-right" aria-hidden="true"></i>
+    </button>
+  </div>
 
   <ul class="list-group list-group-flush">
     <% 1.upto(menu.items_per_meal) do |position| %>
