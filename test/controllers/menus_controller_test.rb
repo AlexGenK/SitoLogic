@@ -110,7 +110,8 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     menus(:one).menu_items.create!(day: 7, meal: 1, position: 2, variant: 1, food: foods(:two), amount: 100)
     get menu_path(menus(:one), day: 7)
     assert_select "#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .badge", "1/2"
-    assert_select "#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .badge[title=?]", "Немає даних:\nБанан (UKN 09040)"
+    badge = css_select("#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .badge").first
+    assert_equal "Немає даних:\nБанан (UKN 09040)", badge["title"]
     assert_select "#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .form-text", /сума може бути заниженою/
   end
 
