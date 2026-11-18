@@ -9,21 +9,23 @@
     <% 1.upto(menu.items_per_meal) do |position| %>
       <% items = (1..menu.variants_per_item).filter_map { |variant| cells[[ meal, position, variant ]] } %>
       <% free = (1..menu.variants_per_item).find { |variant| !cells.key?([ meal, position, variant ]) } %>
-      <li class="list-group-item d-flex flex-wrap align-items-center gap-2">
+      <li class="list-group-item d-flex align-items-center gap-2">
         <span class="text-body-secondary menu-dish-label"><%= t("menus.meal.dish", number: position) %></span>
-        <% items.each do |item| %>
-          <%= link_to edit_menu_menu_item_path(menu, item),
-                class: [ "btn btn-sm btn-outline-secondary", { "menu-variant-chosen": switchable && sets.first[:item_ids].include?(item.id) } ],
-                data: { turbo_frame: "modal", meal_variants_target: "chip", item_id: item.id } do %>
-            <%= item.food.name_ukr %> · <span class="num"><%= grams(item.amount) %></span> г
+        <div class="menu-dish-variants">
+          <% items.each do |item| %>
+            <%= link_to edit_menu_menu_item_path(menu, item),
+                  class: [ "btn btn-sm btn-outline-secondary", { "menu-variant-chosen": switchable && sets.first[:item_ids].include?(item.id) } ],
+                  data: { turbo_frame: "modal", meal_variants_target: "chip", item_id: item.id } do %>
+              <%= item.food.name_ukr %> · <span class="num"><%= grams(item.amount) %></span> г
+            <% end %>
           <% end %>
-        <% end %>
-        <% if free %>
-          <%= link_to new_menu_menu_item_path(menu, day:, meal:, position:, variant: free),
-                class: "btn btn-sm btn-link", data: { turbo_frame: "modal" } do %>
-            <i class="bi bi-plus-lg" aria-hidden="true"></i> <%= t(items.any? ? "menus.meal.add_variant" : "menus.meal.add_food") %>
+          <% if free %>
+            <%= link_to new_menu_menu_item_path(menu, day:, meal:, position:, variant: free),
+                  class: "btn btn-sm btn-link", data: { turbo_frame: "modal" } do %>
+              <i class="bi bi-plus-lg" aria-hidden="true"></i> <%= t(items.any? ? "menus.meal.add_variant" : "menus.meal.add_food") %>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
       </li>
     <% end %>
   </ul>

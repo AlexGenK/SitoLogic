@@ -389,7 +389,17 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 .text-accent { color: var(--sl-accent) !important; }
 
 /* Menus: dish label column and the chosen food in the picker */
-.menu-dish-label { min-width: 4.5rem; }
+.menu-dish-label { min-width: 4.5rem; flex-shrink: 0; }
+/* A dish's variants stay on one line and scroll sideways when they don't fit */
+.menu-dish-variants {
+  display: flex;
+  gap: .5rem;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-bottom: .25rem;
+}
+.menu-dish-variants > * { flex-shrink: 0; white-space: nowrap; }
 .menu-food-list .list-group-item:has(:checked) { background-color: var(--bs-primary-bg-subtle); }
 .menu-food-energy { width: 5.5rem; }
 .menu-food-code { min-width: 4rem; }
