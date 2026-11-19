@@ -82,7 +82,10 @@ class MenuItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "edit shows non-zero nutrients of the current food" do
     get edit_menu_menu_item_path(@menu, menu_items(:one))
-    assert_select "turbo-frame#menu_item_nutrients", /USD 09003 · Вміст на 100 г продукту · 4 показники/
+    assert_select "turbo-frame#menu_item_nutrients", /USD 09003 · 4 показники/
+    assert_select "#menu_item_nutrients th", "На 100 г"
+    assert_select "#menu_item_nutrients th[data-food-details-target=portionHeader]", "На 150 г"
+    assert_select "#menu_item_nutrients td[data-per100='85.5']", "128"
     assert_select "#menu_item_nutrients .nutrient-group-header th", "Вітаміни"
     assert_select "#menu_item_nutrients td", "Retinol"
     assert_select "#menu_item_nutrients td", { text: "Жири", count: 0 }
@@ -93,5 +96,11 @@ class MenuItemsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "turbo-frame#menu_item_nutrients", /Банан/
     assert_select "turbo-frame#menu_item_nutrients p", "Даних про нутрієнти немає."
+  end
+
+  test "nutrients leaves the portion column to the weight field" do
+    get nutrients_menu_menu_items_path(@menu, food_id: foods(:one).id)
+    assert_select "th[data-food-details-target=portionHeader]", "На порцію"
+    assert_select "td[data-food-details-target=portion]", "—"
   end
 end

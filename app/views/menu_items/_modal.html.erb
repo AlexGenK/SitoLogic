@@ -12,7 +12,7 @@
 
 <div class="modal-body" data-modal-size="xl" data-controller="food-details"
      data-food-details-url-value="<%= nutrients_menu_menu_items_path(menu) %>"
-     data-action="change->food-details#load">
+     data-action="change->food-details#load input->food-details#scale">
   <div class="row g-4">
     <div class="col-lg-7">
   <%= form_with url: foods_menu_menu_items_path(menu), method: :get, class: "row g-2 mb-3", role: "search",
@@ -48,7 +48,7 @@
         <div class="input-group has-validation">
           <%= f.number_field :amount, min: 0, step: "any",
                 class: [ "form-control num", { "is-invalid": menu_item.errors[:amount].any? } ],
-                data: { portion_target: "amount" } %>
+                data: { portion_target: "amount", food_details_target: "amount" } %>
           <span class="input-group-text">г</span>
           <%= tag.div(menu_item.errors[:amount].first, class: "invalid-feedback") if menu_item.errors[:amount].any? %>
         </div>
@@ -73,7 +73,7 @@
 
     <div class="col-lg-5 menu-picker-aside">
       <%= turbo_frame_tag "menu_item_nutrients", data: { food_details_target: "frame" } do %>
-        <%= render "nutrients", food: menu_item.food %>
+        <%= render "nutrients", food: menu_item.food, amount: menu_item.amount %>
       <% end %>
     </div>
   </div>

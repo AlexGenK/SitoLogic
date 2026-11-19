@@ -1,10 +1,11 @@
 <% if food %>
   <% nutrient_groups = food.nutrient_groups %>
   <% total = nutrient_groups.sum { |_, food_nutrients| food_nutrients.size } %>
+  <% portion = amount.to_f.positive? %>
   <div class="fw-semibold"><%= food.name_ukr %></div>
   <div class="small text-body-secondary mb-2">
     <span class="code"><%= food.source_code %> <%= food.code %></span>
-    <% if total.positive? %> · <%= t("foods.nutrients.per_100g") %> · <%= t("foods.nutrients.count", count: total) %><% end %>
+    <% if total.positive? %> · <%= t("foods.nutrients.count", count: total) %><% end %>
   </div>
 
   <% if total.zero? %>
@@ -15,21 +16,28 @@
         <thead>
           <tr>
             <th scope="col"><%= t("foods.nutrients.nutrient") %></th>
-            <th scope="col" class="num"><%= t("foods.nutrients.amount") %></th>
+            <th scope="col" class="num"><%= t("menu_items.nutrients.per_100g") %></th>
+            <th scope="col" class="num" data-food-details-target="portionHeader"
+                data-template="<%= t("menu_items.nutrients.portion", amount: "%{amount}") %>"
+                data-empty="<%= t("menu_items.nutrients.portion_empty") %>">
+              <%= portion ? t("menu_items.nutrients.portion", amount: grams(amount)) : t("menu_items.nutrients.portion_empty") %>
+            </th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <% nutrient_groups.each do |_, food_nutrients| %>
           <tbody>
             <tr class="nutrient-group-header">
-              <th scope="colgroup" colspan="2"><%= food_nutrients.first.nutrient.group_ukr || t("foods.nutrients.other_group") %></th>
+              <th scope="colgroup" colspan="4"><%= food_nutrients.first.nutrient.group_ukr || t("foods.nutrients.other_group") %></th>
             </tr>
             <% food_nutrients.each do |food_nutrient| %>
               <tr>
                 <td><%= food_nutrient.nutrient.display_name %></td>
-                <td class="num">
-                  <%= nutrient_amount(food_nutrient.amount) %>
-                  <span class="text-body-secondary"><%= food_nutrient.nutrient.unit_ukr %></span>
+                <td class="num"><%= nutrient_amount(food_nutrient.amount) %></td>
+                <td class="num" data-food-details-target="portion" data-per100="<%= food_nutrient.amount.to_f %>">
+                  <%= portion ? nutrient_sum(food_nutrient.amount * amount / 100) : "—" %>
                 </td>
+                <td class="text-body-secondary"><%= food_nutrient.nutrient.unit_ukr %></td>
               </tr>
             <% end %>
           </tbody>
