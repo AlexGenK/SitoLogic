@@ -19,6 +19,10 @@ Rails.application.routes.draw do
       get :foods, on: :collection
       get :nutrients, on: :collection
     end
+    member do
+      get :report
+      get :grid
+    end
     get "days/:day/nutrients", to: "day_nutrients#show", as: :day_nutrients
   end
 end

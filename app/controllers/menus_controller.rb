@@ -1,5 +1,5 @@
 class MenusController < ApplicationController
-  before_action :set_menu, only: [ :show, :edit, :update ]
+  before_action :set_menu, only: [ :show, :edit, :update, :report, :grid ]
 
   def index
     @menus = Menu.order(:code)
@@ -32,6 +32,12 @@ class MenusController < ApplicationController
     else
       render :edit, status: :unprocessable_content
     end
+  end
+
+  def report
+  end
+
+  def grid
   end
 
   private

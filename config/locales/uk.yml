@@ -128,6 +128,11 @@ uk:
     update:
       saved: "Нутрієнт збережено."
   menus:
+    navs:
+        days: "Дні меню"
+        day: "День %{number}"
+        report: "Звіт"
+        grid: "Таблиця"
     index:
       title: "Меню"
       new: "Створити меню"
@@ -143,8 +148,6 @@ uk:
     show:
       back: "Назад до списку"
       edit: "Редагувати меню"
-      days: "Дні меню"
-      day: "День %{number}"
       nutrients_title: "Сума нутрієнтів"
       loading: "Завантаження…"
     meal_nutrients:
