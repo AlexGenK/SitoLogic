@@ -430,3 +430,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 @media (min-width: 992px) {
   .menu-nutrients-aside { position: sticky; top: 4.5rem; }
 }
+
+/* Menus: the day table dims while Rails renders it for new variant sets */
+turbo-frame#day_nutrients[busy] { opacity: .5; transition: opacity .15s; }

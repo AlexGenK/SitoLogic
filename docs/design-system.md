@@ -156,7 +156,10 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 - Menus and diets are cards: day → meals → dishes. A menu day shows the meal cards in one column (`col-lg-8`) and,
   on the right (`col-lg-4`, sticky under the navbar), the summed nutrients of the chosen meal for the variant set its
   card shows; «Нутрієнти ›» in a card header chooses the meal, the chosen card has a primary border. A sum that only
-  part of the foods have a value for carries a soft warning badge «2/3». A meal card ends with the totals and the pair of macronutrient split bars. When dishes have several variants, ‹ › arrows switch the totals between variant sets («Варіант 2 з 3»): variant N of every dish, or its first variant when it has none; the counted foods are outlined in primary. A dish's variants stay on one line; when they don't fit, the strip scrolls sideways.
+  part of the foods have a value for carries a soft warning badge «2/3».
+  Below the cards, full width, the day table: a column per meal for the set its card shows, «Разом» in semibold
+  and a unit column without a header; Rails renders it into a lazy Turbo Frame and re-renders it when a card's set
+  or foods change. The day table has no «2/3» badges. A meal card ends with the totals and the pair of macronutrient split bars. When dishes have several variants, ‹ › arrows switch the totals between variant sets («Варіант 2 з 3»): variant N of every dish, or its first variant when it has none; the counted foods are outlined in primary. A dish's variants stay on one line; when they don't fit, the strip scrolls sideways.
 - Flash messages: success as a toast in the top-right corner, hidden after 4 s; errors as an inline `alert` that stays.
 - Empty states: one short sentence and the main button («Меню ще немає» → «Створити меню»).
 

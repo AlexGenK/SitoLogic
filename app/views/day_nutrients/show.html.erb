@@ -1,0 +1,46 @@
+<%= turbo_frame_tag "day_nutrients" do %>
+  <% switchable = @menu.variants_per_item > 1 %>
+  <div class="d-flex flex-wrap align-items-baseline gap-2 mb-2">
+    <h2 class="h5 mb-0"><%= t(".title", day: @day) %></h2>
+    <% if switchable %><span class="small text-body-secondary"><%= t(".sets", sets: @variants.join(" · ")) %></span><% end %>
+  </div>
+
+  <% if @groups.empty? %>
+    <p class="text-body-secondary mb-0"><%= t(@foods_present ? ".no_data" : ".no_foods") %></p>
+  <% else %>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col"><%= t("foods.nutrients.nutrient") %></th>
+            <% @variants.each.with_index(1) do |variant, meal| %>
+              <th scope="col" class="num">
+                <%= t(".meal", number: meal) %>
+                <% if switchable %><span class="d-block small fw-normal text-body-secondary"><%= t(".variant", number: variant) %></span><% end %>
+              </th>
+            <% end %>
+            <th scope="col" class="num"><%= t(".total") %></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <% @groups.each do |_, rows| %>
+          <tbody>
+            <tr class="nutrient-group-header">
+              <th scope="colgroup" colspan="<%= @variants.size + 3 %>"><%= rows.first.first.group_ukr || t("foods.nutrients.other_group") %></th>
+            </tr>
+            <% rows.each do |nutrient, amounts, total| %>
+              <tr>
+                <td><%= nutrient.display_name %></td>
+                <% amounts.each do |amount| %>
+                  <td class="num"><%= amount ? nutrient_sum(amount) : "—" %></td>
+                <% end %>
+                <td class="num fw-semibold"><%= nutrient_sum(total) %></td>
+                <td class="text-body-secondary"><%= nutrient.unit_ukr %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+<% end %>

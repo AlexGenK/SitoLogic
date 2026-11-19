@@ -71,9 +71,26 @@ module MenusHelper
 
       sums.reject { |_, (amount, _)| amount.zero? }
         .map { |nutrient, (amount, counted)| [ nutrient, amount, counted.size, chosen.size, (chosen - counted).map(&:food) ] }
-        .sort_by { |nutrient, *| nutrient.id }
-        .group_by { |nutrient, *| nutrient.group }
-        .sort_by { |group, _| Nutrient.groups.keys.index(group) || Nutrient.groups.size }
+        .then { group_nutrient_rows(it) }
     end
+  end
+
+  # Nutrients of a day with one variant set per meal: [[group, [[nutrient, [amount per meal], total]]]];
+  # a meal without the nutrient has nil, nutrients with a zero total are skipped
+  def day_nutrient_groups(menu, cells, variants)
+    per_meal = variants.map.with_index(1) do |variant, meal|
+      items = cells.values.select { it.meal == meal }
+      meal_nutrient_sets(items, menu.variants_per_item)[variant - 1].flat_map(&:last).to_h { |nutrient, amount, *| [ nutrient, amount ] }
+    end
+
+    rows = per_meal.flat_map(&:keys).uniq.map { |nutrient| [ nutrient, per_meal.map { it[nutrient] }, per_meal.sum { it[nutrient] || 0 } ] }
+    group_nutrient_rows(rows.reject { |_, _, total| total.zero? })
+  end
+
+  # Rows that start with a nutrient, as [[group, rows]] in Nutrient::GROUPS order (ungrouped last), by nutrient id
+  def group_nutrient_rows(rows)
+    rows.sort_by { |nutrient, *| nutrient.id }
+      .group_by { |nutrient, *| nutrient.group }
+      .sort_by { |group, _| Nutrient.groups.keys.index(group) || Nutrient.groups.size }
   end
 end

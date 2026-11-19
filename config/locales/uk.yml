@@ -146,6 +146,7 @@ uk:
       days: "Дні меню"
       day: "День %{number}"
       nutrients_title: "Сума нутрієнтів"
+      loading: "Завантаження…"
     meal_nutrients:
       nutrient: "Нутрієнт"
       amount: "Сума"
@@ -220,3 +221,12 @@ uk:
       per_100g: "На 100 г"
       portion: "На %{amount} г"
       portion_empty: "На порцію"
+  day_nutrients:
+    show:
+      title: "Нутрієнти за день %{day}"
+      sets: "Набори: %{sets}"
+      meal: "Прийом %{number}"
+      variant: "варіант %{number}"
+      total: "Разом"
+      no_foods: "У цьому дні ще немає продуктів."
+      no_data: "Даних про нутрієнти за цей день немає."

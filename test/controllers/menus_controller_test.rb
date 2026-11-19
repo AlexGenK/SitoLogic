@@ -115,6 +115,12 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_select "#meal_nutrients_7_1_menu_#{menus(:one).id} [data-variant='0'] .form-text", /сума може бути заниженою/
   end
 
+  test "show loads the day table lazily" do
+    get menu_path(menus(:one), day: 7)
+    assert_select "turbo-frame#day_nutrients[loading=lazy][src=?][data-meal-nutrients-target=dayFrame]",
+      menu_day_nutrients_path(menus(:one), 7)
+  end
+
   test "show says when a meal has no foods" do
     get menu_path(menus(:one), day: 7)
     assert_select "#meal_nutrients_7_2_menu_#{menus(:one).id} p", "У цьому прийомі їжі ще немає продуктів."
