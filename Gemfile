@@ -18,6 +18,9 @@ gem "stimulus-rails"
 gem "rails-i18n", "~> 8.0"
 # Pagination [https://github.com/ddnexus/pagy]
 gem "pagy", "~> 43.8"
+# PDF generation (menu report) [https://github.com/prawnpdf/prawn]
+gem "prawn", "~> 2.5"
+gem "prawn-table", "~> 0.2"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

@@ -5,43 +5,21 @@
   <%= render 'navs' %>
 
   <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex align-items-center gap-2">
       <h2 class="h5 mb-0"><%= t(".title") %></h2>
+      <%= link_to report_menu_path(@menu, format: :pdf), class: "btn btn-outline-secondary btn-sm ms-auto", data: { turbo: false } do %>
+        <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> <%= t(".download_pdf") %>
+      <% end %>
     </div>
     <div class="table-responsive">
       <table class="table align-middle mb-0 report-table">
         <tbody>
-          <tr>
-            <th scope="row"><%= t(".code") %></th>
-            <td class="code"><%= @menu.code %></td>
-          </tr>
-          <tr>
-            <th scope="row"><%= t(".name") %></th>
-            <td><%= @menu.name %></td>
-          </tr>
-          <tr>
-            <th scope="row"><%= t(".items_count") %></th>
-            <td><%= @items_count %></td>
-          </tr>
-          <tr>
-            <th scope="row"><%= t(".total_amount") %></th>
-            <td class="text-nowrap"><%= t(".grams", value: grams(@total_amount)) %></td>
-          </tr>
-          <tr>
-            <th scope="row"><%= t(".daily_amount") %></th>
-            <td class="text-nowrap"><%= t(".grams", value: grams(@total_amount / @menu.days_count)) %></td>
-          </tr>
-          <tr>
-            <th scope="row"><%= t(".structure") %></th>
-            <td>
-              <%= safe_join([
-                    t(".days", count: @menu.days_count),
-                    t(".meals", count: @menu.meals_per_day),
-                    t(".dishes", count: @menu.items_per_meal),
-                    t(".variants", count: @menu.variants_per_item)
-                  ], " · ") %>
-            </td>
-          </tr>
+          <% @rows.each do |key, value| %>
+            <tr>
+              <th scope="row"><%= t(".#{key}") %></th>
+              <%= tag.td value, class: { code: key == :code, "text-nowrap": key.in?(%i[total_amount daily_amount]) } %>
+            </tr>
+          <% end %>
         </tbody>
       </table>
     </div>

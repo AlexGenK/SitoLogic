@@ -93,4 +93,22 @@ module MenusHelper
       .group_by { |nutrient, *| nutrient.group }
       .sort_by { |group, _| Nutrient.groups.keys.index(group) || Nutrient.groups.size }
   end
+
+  # Rows of the menu report as { key => value } in display order; the label of a row is t("menus.report.<key>")
+  def menu_report_rows(menu)
+    total = menu.total_amount
+    {
+      code: menu.code,
+      name: menu.name,
+      items_count: menu.menu_items.count.to_s,
+      total_amount: t("menus.report.grams", value: grams(total)),
+      daily_amount: t("menus.report.grams", value: grams(total / menu.days_count)),
+      structure: [
+        t("menus.report.days", count: menu.days_count),
+        t("menus.report.meals", count: menu.meals_per_day),
+        t("menus.report.dishes", count: menu.items_per_meal),
+        t("menus.report.variants", count: menu.variants_per_item)
+      ].join(" · ")
+    }
+  end
 end

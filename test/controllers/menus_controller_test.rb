@@ -132,10 +132,19 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".nav-pills .nav-link.active", "Звіт"
     assert_select ".card-header h2", "Аналітичний огляд меню"
+    assert_select ".card-header a.btn[href=?]", report_menu_path(menus(:one), format: :pdf), text: /Завантажити PDF/
     assert_select ".report-table td.code", "M1"
     assert_select ".report-table td", "2"
     assert_select ".report-table td", "125 г"
     assert_select ".report-table td", "17,9 г"
     assert_select ".report-table td", /7 днів · 4 прийоми їжі · 3 страви · 2 варіанти/
+  end
+
+  test "report downloads as a PDF" do
+    get report_menu_path(menus(:one), format: :pdf)
+    assert_response :success
+    assert_equal "application/pdf", response.media_type
+    assert response.body.start_with?("%PDF")
+    assert_includes response.headers["Content-Disposition"], 'attachment; filename="menu-M1-report.pdf"'
   end
 end

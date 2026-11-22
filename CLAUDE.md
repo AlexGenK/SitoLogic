@@ -23,6 +23,7 @@ SitoLogic is an early-stage Rails application for working with a food reference 
 - Bootstrap 5.3 vendored: `vendor/assets/stylesheets/bootstrap.min.css`, `vendor/javascript/bootstrap.js` and `@popperjs--core.js` (pinned in `config/importmap.rb`)
 - Bootstrap Icons 1.13 vendored: `vendor/assets/stylesheets/bootstrap-icons.min.css` and `fonts/`
 - Tests: Minitest + fixtures; system tests with Capybara/Selenium
+- PDF: Prawn + prawn-table; generators in `app/pdfs/`, DejaVu Sans fonts (Cyrillic) in `vendor/fonts/`
 - Style: `rubocop-rails-omakase`
 - Disabled frameworks: Action Mailer, Action Mailbox, Action Cable (`config/application.rb`)
 

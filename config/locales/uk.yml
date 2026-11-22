@@ -206,6 +206,7 @@ uk:
       daily_amount: "Середня вага продуктів на день"
       structure: "Структура меню"
       grams: "%{value} г"
+      download_pdf: "Завантажити PDF"
       days:
         one: "%{count} день"
         few: "%{count} дні"

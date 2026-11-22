@@ -35,8 +35,15 @@ class MenusController < ApplicationController
   end
 
   def report
-    @items_count = @menu.menu_items.count
-    @total_amount = @menu.total_amount
+    @rows = helpers.menu_report_rows(@menu)
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = MenuReportPdf.new(title: t(".title"), rows: @rows.map { |key, value| [ t(".#{key}"), value ] })
+        send_data pdf.render, filename: "menu-#{@menu.code}-report.pdf", type: :pdf, disposition: "attachment"
+      end
+    end
   end
 
   def grid
