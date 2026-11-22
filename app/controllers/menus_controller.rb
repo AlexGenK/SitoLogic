@@ -35,6 +35,8 @@ class MenusController < ApplicationController
   end
 
   def report
+    @items_count = @menu.menu_items.count
+    @total_amount = @menu.total_amount
   end
 
   def grid

@@ -197,6 +197,35 @@ uk:
       cancel: "Скасувати"
       save: "Зберегти меню"
       saving: "Збереження…"
+    report:
+      title: "Аналітичний огляд меню"
+      code: "Код меню"
+      name: "Назва меню"
+      items_count: "Кількість продуктів у меню"
+      total_amount: "Загальна вага продуктів"
+      daily_amount: "Середня вага продуктів на день"
+      structure: "Структура меню"
+      grams: "%{value} г"
+      days:
+        one: "%{count} день"
+        few: "%{count} дні"
+        many: "%{count} днів"
+        other: "%{count} дня"
+      meals:
+        one: "%{count} прийом їжі"
+        few: "%{count} прийоми їжі"
+        many: "%{count} прийомів їжі"
+        other: "%{count} прийому їжі"
+      dishes:
+        one: "%{count} страва"
+        few: "%{count} страви"
+        many: "%{count} страв"
+        other: "%{count} страви"
+      variants:
+        one: "%{count} варіант"
+        few: "%{count} варіанти"
+        many: "%{count} варіантів"
+        other: "%{count} варіанта"
     create:
       created: "Меню створено."
     update:

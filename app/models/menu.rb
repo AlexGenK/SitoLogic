@@ -18,6 +18,16 @@ class Menu < ApplicationRecord
     menu_items.where(day:).includes(:food).index_by { [ it.meal, it.position, it.variant ] }
   end
 
+  # Weight of the menu in grams: a dish with several variants counts as the mean of its variants
+  def total_amount
+    menu_items.group(:day, :meal, :position).average(:amount).values.sum(0)
+  end
+
+  # Mean weight per day of the menu, empty days included
+  def average_daily_amount
+    total_amount / days_count
+  end
+
   private
     # Не дає зменшити сітку, якщо заповнені клітинки опиняться за її межами.
     def structure_fits_items

@@ -446,3 +446,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 
 /* Menus: the day table dims while Rails renders it for new variant sets */
 turbo-frame#day_nutrients[busy] { opacity: .5; transition: opacity .15s; }
+
+/* Report table «показник — значення»: muted labels in the left 30%, values left-aligned */
+.report-table th {
+  width: 30%;
+  font-weight: 400;
+  color: var(--bs-secondary-color);
+}
+
+.report-table td {
+  font-variant-numeric: tabular-nums;
+}

@@ -125,4 +125,17 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     get menu_path(menus(:one), day: 7)
     assert_select "#meal_nutrients_7_2_menu_#{menus(:one).id} p", "У цьому прийомі їжі ще немає продуктів."
   end
+
+  test "report shows the menu overview" do
+    menus(:one).menu_items.create!(day: 7, meal: 1, position: 1, variant: 2, food: foods(:two), amount: 100)
+    get report_menu_path(menus(:one))
+    assert_response :success
+    assert_select ".nav-pills .nav-link.active", "Звіт"
+    assert_select ".card-header h2", "Аналітичний огляд меню"
+    assert_select ".report-table td.code", "M1"
+    assert_select ".report-table td", "2"
+    assert_select ".report-table td", "125 г"
+    assert_select ".report-table td", "17,9 г"
+    assert_select ".report-table td", /7 днів · 4 прийоми їжі · 3 страви · 2 варіанти/
+  end
 end

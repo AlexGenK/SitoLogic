@@ -84,7 +84,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 
 - Bootstrap system font stack (covers Cyrillic). Base size 1rem.
 - Headings are semibold (600). No `display-*` classes on working screens.
-- Numbers in tables and summaries: `.num` (tabular figures, right-aligned, no wrapping). Units go in the column header («Білки, г», «ккал»), not in each cell. Decimal separator is a comma.
+- Numbers in tables and summaries: `.num` (tabular figures, right-aligned, no wrapping). Units go in the column header («Білки, г», «ккал»), not in each cell. Decimal separator is a comma. Exception: report tables (below).
 - Reference codes (source, group type, group code): `.code`, or a soft badge `badge bg-primary-subtle text-primary-emphasis`.
 - Radius: `.5rem` controls, `.75rem` cards and modals, `rounded-pill` badges.
 - Shadows: none on cards (border only); dropdowns and modals keep Bootstrap's.
@@ -153,6 +153,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 ## Tables, cards, feedback
 
 - Tables: `table table-hover align-middle` inside `table-responsive`. The header is tinted by the theme. Totals row is `fw-semibold`. Long lists: sticky header and pagination below; search and filters in a row above the table.
+- Report tables («показник — значення», a menu report): `table align-middle mb-0 report-table` in a full-width card with the title in the card header. Labels in `th scope="row"` (muted, 30% of the width), values left-aligned with tabular figures; the unit goes in the value («125 г»), since each row has its own unit.
 - Multi-value filters: a `dropdown` with checkboxes in the filter row (`data-bs-auto-close="outside"`), the number of selected values in a soft badge on the button, applied by the form's submit button. A filter with default values (from the settings) always sends an empty value too, so unchecking everything means «all», not «defaults».
 - Grouped reference lists (a food's nutrients): a card at most 800px tall (`.nutrient-card`). The group nav (`nav nav-pills flex-column` in a `col-lg-3` column, hidden below `lg`) stays in place; the table scrolls inside its own column with a sticky header and one tinted group row (`tr.nutrient-group-header`) per group. The `scrollspy` Stimulus controller highlights the group at the top of the table and scrolls the table, not the page, to a clicked group. The basis («Вміст на 100 г продукту») is stated in the card header. Zero amounts are never shown.
 - Menus and diets are cards: day → meals → dishes. A menu day shows the meal cards in one column (`col-lg-8`) and,
