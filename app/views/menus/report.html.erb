@@ -25,4 +25,46 @@
     </div>
   </div>
 
+  <div class="card mt-4">
+    <div class="card-header">
+      <h2 class="h5 mb-0"><%= t(".nutrients_title") %></h2>
+    </div>
+    <% if @nutrient_groups.empty? %>
+      <div class="card-body">
+        <p class="text-body-secondary mb-0"><%= t(".no_nutrients") %></p>
+      </div>
+    <% else %>
+      <div class="table-responsive">
+        <table class="table table-sm table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col"><%= t("foods.nutrients.nutrient") %></th>
+              <th scope="col"><%= t("foods.nutrients.unit") %></th>
+              <th scope="col" class="num"><%= t(".nutrients_total") %></th>
+              <th scope="col" class="num"><%= t(".nutrients_per_day") %></th>
+              <th scope="col" class="num"><%= t(".nutrients_per_meal") %></th>
+              <th scope="col" class="num"><%= t(".nutrients_per_dish") %></th>
+            </tr>
+          </thead>
+          <% @nutrient_groups.each do |_, rows| %>
+            <tbody>
+              <tr class="nutrient-group-header">
+                <th scope="colgroup" colspan="6"><%= rows.first.first.group_ukr || t("foods.nutrients.other_group") %></th>
+              </tr>
+              <% rows.each do |nutrient, *amounts| %>
+                <tr>
+                  <td><%= nutrient.display_name %></td>
+                  <td class="text-body-secondary"><%= nutrient.unit_ukr %></td>
+                  <% amounts.each_with_index do |amount, index| %>
+                    <%= tag.td nutrient_sum(amount), class: [ "num", { "fw-semibold": index.zero? } ] %>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          <% end %>
+        </table>
+      </div>
+    <% end %>
+  </div>
+
 </div>

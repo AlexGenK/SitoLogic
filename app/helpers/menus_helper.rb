@@ -102,7 +102,7 @@ module MenusHelper
       name: menu.name,
       items_count: menu.menu_items.count.to_s,
       total_amount: t("menus.report.grams", value: grams(total)),
-      daily_amount: t("menus.report.grams", value: grams(total / menu.days_count)),
+      daily_amount: t("menus.report.grams", value: grams(menu.average_daily_amount)),
       structure: [
         t("menus.report.days", count: menu.days_count),
         t("menus.report.meals", count: menu.meals_per_day),
@@ -110,5 +110,23 @@ module MenusHelper
         t("menus.report.variants", count: menu.variants_per_item)
       ].join(" · ")
     }
+  end
+
+  # Nutrients of the menu report: [[group, [[nutrient, total, per_day, per_meal, per_dish]]]] in Nutrient::GROUPS
+  # order; the averages are over the filled days, meals and dishes
+  def menu_report_nutrient_groups(menu)
+    divisors = menu.filled_counts.values_at(:days, :meals, :dishes)
+    rows = menu.nutrient_totals.map { |nutrient, total| [ nutrient, total, *divisors.map { total / it } ] }
+    group_nutrient_rows(rows)
+  end
+
+  # The same groups as text for the PDF: [[group label, [[name, unit, total, per_day, per_meal, per_dish]]]]
+  def menu_report_nutrient_text(groups)
+    groups.map do |_, rows|
+      [
+        rows.first.first.group_ukr || t("foods.nutrients.other_group"),
+        rows.map { |nutrient, *amounts| [ nutrient.display_name, nutrient.unit_ukr.to_s, *amounts.map { nutrient_sum(it) } ] }
+      ]
+    end
   end
 end

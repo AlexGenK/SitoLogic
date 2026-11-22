@@ -23,9 +23,31 @@ class Menu < ApplicationRecord
     menu_items.group(:day, :meal, :position).average(:amount).values.sum(0)
   end
 
-  # Mean weight per day of the menu, empty days included
+  # Mean weight per filled day (a day with at least one food)
   def average_daily_amount
-    total_amount / days_count
+    days = filled_counts[:days]
+    days.zero? ? 0 : total_amount / days
+  end
+
+  # Numbers of filled days, meals and dishes: the divisors of the report's averages
+  def filled_counts
+    dishes = menu_items.distinct.pluck(:day, :meal, :position)
+    { days: dishes.map(&:first).uniq.size, meals: dishes.map { it.first(2) }.uniq.size, dishes: dishes.size }
+  end
+
+  # Nutrients of the whole menu as { nutrient => amount }: a dish counts as the mean of its variants, a variant
+  # without the nutrient counts as zero. Zero totals are skipped.
+  def nutrient_totals
+    items = menu_items.to_a
+    variants = items.group_by { [ it.day, it.meal, it.position ] }.transform_values(&:size)
+    rows = FoodNutrient.where(food_id: items.map(&:food_id).uniq).includes(:nutrient).group_by(&:food_id)
+
+    totals = Hash.new(0)
+    items.each do |item|
+      share = item.amount / 100 / variants[[ item.day, item.meal, item.position ]]
+      rows.fetch(item.food_id, []).each { |row| totals[row.nutrient] += row.amount * share }
+    end
+    totals.reject { |_, amount| amount.zero? }
   end
 
   private

@@ -36,11 +36,18 @@ class MenusController < ApplicationController
 
   def report
     @rows = helpers.menu_report_rows(@menu)
+    @nutrient_groups = helpers.menu_report_nutrient_groups(@menu)
 
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = MenuReportPdf.new(title: t(".title"), rows: @rows.map { |key, value| [ t(".#{key}"), value ] })
+        pdf = MenuReportPdf.new(
+          title: t(".title"),
+          rows: @rows.map { |key, value| [ t(".#{key}"), value ] },
+          nutrients_title: t(".nutrients_title"),
+          nutrients_header: [ t("foods.nutrients.nutrient"), t(".nutrients_unit_short"), *%w[total per_day per_meal per_dish].map { t(".nutrients_#{it}") } ],
+          nutrients: helpers.menu_report_nutrient_text(@nutrient_groups)
+        )
         send_data pdf.render, filename: "menu-#{@menu.code}-report.pdf", type: :pdf, disposition: "attachment"
       end
     end

@@ -136,8 +136,23 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_select ".report-table td.code", "M1"
     assert_select ".report-table td", "2"
     assert_select ".report-table td", "125 г"
-    assert_select ".report-table td", "17,9 г"
+    assert_select ".report-table td", text: "125 г", count: 2   # total and per filled day
     assert_select ".report-table td", /7 днів · 4 прийоми їжі · 3 страви · 2 варіанти/
+  end
+
+  test "report shows menu nutrients averaged over filled cells" do
+    menus(:one).menu_items.create!(day: 7, meal: 1, position: 1, variant: 2, food: foods(:two), amount: 100)
+    get report_menu_path(menus(:one))
+    assert_select ".card-header h2", "Аналіз нутрієнтів"
+    assert_select "tr.nutrient-group-header th", "Основні показники"
+    assert_select "tr", text: /Вода\s+г\s+64,1\s+64,1\s+64,1\s+64,1/
+    assert_select "td", text: "Жири", count: 0
+  end
+
+  test "report says when the menu has no nutrient data" do
+    menus(:one).menu_items.delete_all
+    get report_menu_path(menus(:one))
+    assert_select ".card-body p", "Даних про нутрієнти в меню немає."
   end
 
   test "report downloads as a PDF" do

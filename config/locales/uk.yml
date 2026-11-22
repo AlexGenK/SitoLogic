@@ -207,6 +207,13 @@ uk:
       structure: "Структура меню"
       grams: "%{value} г"
       download_pdf: "Завантажити PDF"
+      nutrients_title: "Аналіз нутрієнтів"
+      nutrients_unit_short: "Од."
+      nutrients_total: "Усього"
+      nutrients_per_day: "На день"
+      nutrients_per_meal: "На прийом їжі"
+      nutrients_per_dish: "На страву"
+      no_nutrients: "Даних про нутрієнти в меню немає."
       days:
         one: "%{count} день"
         few: "%{count} дні"
