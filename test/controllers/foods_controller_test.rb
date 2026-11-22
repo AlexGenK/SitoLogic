@@ -59,7 +59,7 @@ class FoodsControllerTest < ActionDispatch::IntegrationTest
 
   test "index lists only sources with foods and falls back to name_en" do
     get foods_path
-    assert_select "input[name='sources[]']", 2
+    assert_select "input[type=checkbox][name='sources[]']", 2
     assert_select "input[name='sources[]'][value=ADF]", 0
     assert_select ".source-filter-menu", /UK Nutrient Databank/
   end
@@ -74,6 +74,26 @@ class FoodsControllerTest < ActionDispatch::IntegrationTest
     get foods_path(sources: { a: "b" })
     assert_response :success
     assert_select "tbody tr", 2
+  end
+
+  test "index applies default sources when the sources param is absent" do
+    settings(:main).update!(default_source_codes: [ "USD" ])
+    get foods_path
+    assert_select "tbody tr", 1
+    assert_select "input[type=checkbox][value=USD][checked]"
+    assert_select "button .badge", "1"
+  end
+
+  test "index searches all sources when every source is unchecked" do
+    settings(:main).update!(default_source_codes: [ "USD" ])
+    get foods_path(sources: [ "" ])
+    assert_select "tbody tr", 2
+    assert_select "input[type=checkbox][checked]", 0
+  end
+
+  test "index filter always sends an empty sources value" do
+    get foods_path
+    assert_select ".source-filter-menu input[type=hidden][name='sources[]'][value='']"
   end
 
   test "index links food name to its page and keeps list params" do

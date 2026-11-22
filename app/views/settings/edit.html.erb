@@ -1,0 +1,38 @@
+<% content_for :title, "#{t(".title")} · SitoLogic" %>
+
+<div class="container-xl py-4">
+  <h1 class="h3 mb-3"><%= t(".title") %></h1>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <%= form_with model: @setting, url: settings_path do |f| %>
+        <div class="card">
+          <div class="card-header"><h2 class="h6 mb-0"><%= t(".search") %></h2></div>
+          <div class="card-body">
+            <div class="form-label"><%= t(".default_sources") %></div>
+            <% if @setting.errors[:default_source_codes].any? %>
+              <div class="alert alert-danger py-2"><%= @setting.errors[:default_source_codes].first %></div>
+            <% end %>
+            <div class="check-columns">
+              <%= f.collection_check_boxes :default_source_codes, @sources, :code, :display_name do |b| %>
+                <div class="form-check mb-2">
+                  <%= b.check_box class: "form-check-input" %>
+                  <%= b.label class: "form-check-label d-flex align-items-center gap-2" do %>
+                    <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis code"><%= b.value %></span>
+                    <span class="text-truncate" title="<%= b.text %>"><%= b.text %></span>
+                    <span class="num small text-body-secondary ms-auto"><%= b.object.foods_count %></span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <div class="form-text"><%= t(".default_sources_hint") %></div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 border-top pt-3 mt-4">
+          <%= f.submit t(".save"), class: "btn btn-primary", data: { turbo_submits_with: t(".saving") } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

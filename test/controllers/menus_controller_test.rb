@@ -19,7 +19,7 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
   test "show renders day pills and a card per meal with dish slots" do
     get menu_path(menus(:one), day: 7)
     assert_response :success
-    assert_select ".nav-pills .nav-link", 7
+    assert_select ".nav-pills .nav-link", text: /\AДень \d+\z/, count: 7
     assert_select ".nav-pills .nav-link.active", "День 7"
     assert_select ".card-header h2", 4
     assert_select "#meal_7_1_menu_#{menus(:one).id} .list-group-item", 3

@@ -96,6 +96,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
   - Left: brand — `render "logo"` + «SitoLogic» in primary.
   - Main sections, at most five: Меню · Раціони · Продукти · Довідники ▾ (Джерела, Групи, Нутрієнти).
   - The active link gets `.active` and `aria-current="page"`; it is shown in primary with a 2px underline.
+  - Right (`ms-auto`): «Налаштування» with `bi-gear`; it is not one of the main sections.
   - Right: the user menu. No language switch while the interface is Ukrainian only.
 - Sections with sub-pages (References) use a left column `col-lg-3` with `nav nav-pills flex-column` or `list-group`, not a second navbar.
 - Breadcrumbs only deeper than two levels (Продукти → Група → Продукт).
@@ -137,6 +138,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 - Numeric fields with units: `input-group` with `input-group-text` («г», «ккал», «%»).
 - Validation: `is-invalid` on the field and `invalid-feedback` under it. An `alert alert-danger` summary at the top only when there are more than two errors.
 - Width: forms are not full width — `col-lg-8` / `col-xl-6`. Long forms are split into cards with section headings.
+- Long checkbox lists (default sources in the settings): `.check-columns` — two columns from `md` split by a vertical rule, items read top to bottom; a reference item shows its code in a soft badge before the name and its count muted on the right.
 - Actions at the bottom, separated by a top border (`border-top pt-3 mt-4`), per the button rules.
 
 ## Modals
@@ -151,7 +153,7 @@ A balance ring: a primary ring with one accent segment (a balanced plate / nutri
 ## Tables, cards, feedback
 
 - Tables: `table table-hover align-middle` inside `table-responsive`. The header is tinted by the theme. Totals row is `fw-semibold`. Long lists: sticky header and pagination below; search and filters in a row above the table.
-- Multi-value filters: a `dropdown` with checkboxes in the filter row (`data-bs-auto-close="outside"`), the number of selected values in a soft badge on the button, applied by the form's submit button.
+- Multi-value filters: a `dropdown` with checkboxes in the filter row (`data-bs-auto-close="outside"`), the number of selected values in a soft badge on the button, applied by the form's submit button. A filter with default values (from the settings) always sends an empty value too, so unchecking everything means «all», not «defaults».
 - Grouped reference lists (a food's nutrients): a card at most 800px tall (`.nutrient-card`). The group nav (`nav nav-pills flex-column` in a `col-lg-3` column, hidden below `lg`) stays in place; the table scrolls inside its own column with a sticky header and one tinted group row (`tr.nutrient-group-header`) per group. The `scrollspy` Stimulus controller highlights the group at the top of the table and scrolls the table, not the page, to a clicked group. The basis («Вміст на 100 г продукту») is stated in the card header. Zero amounts are never shown.
 - Menus and diets are cards: day → meals → dishes. A menu day shows the meal cards in one column (`col-lg-8`) and,
   on the right (`col-lg-4`, sticky under the navbar), the summed nutrients of the chosen meal for the variant set its

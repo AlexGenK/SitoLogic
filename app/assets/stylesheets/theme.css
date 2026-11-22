@@ -297,6 +297,19 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   overflow-y: auto;
 }
 
+/* Checkbox list in two columns (md and up), split by a vertical rule; items read top to bottom */
+@media (min-width: 768px) {
+  .check-columns {
+    column-count: 2;
+    column-gap: 2rem;
+    column-rule: 1px solid var(--bs-border-color);
+  }
+}
+
+.check-columns > * {
+  break-inside: avoid;
+}
+
 /* Surfaces */
 .card {
   --bs-card-border-color: var(--bs-border-color);

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_11_090100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_22_090000) do
   create_table "food_nutrients", force: :cascade do |t|
     t.integer "food_id", null: false
     t.integer "nutrient_id", null: false
@@ -86,6 +86,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_090100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_nutrients_on_code", unique: true
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.json "default_source_codes", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sources", force: :cascade do |t|

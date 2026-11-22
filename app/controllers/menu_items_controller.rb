@@ -64,7 +64,7 @@ class MenuItemsController < ApplicationController
     # Foods matching q and sources; the selected food is always listed first
     def find_foods(selected_id:)
       @query = params[:q].to_s.strip
-      @source_codes = Array.wrap(params[:sources]).grep(String).compact_blank
+      @source_codes = selected_source_codes
       @selected_id = selected_id
 
       foods = Food.none

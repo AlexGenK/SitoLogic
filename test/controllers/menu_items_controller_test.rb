@@ -22,6 +22,15 @@ class MenuItemsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", "Нічого не знайдено."
   end
 
+  test "picker applies default sources" do
+    settings(:main).update!(default_source_codes: [ "UKN" ])
+    get new_menu_menu_item_path(@menu, day: 2, meal: 1, position: 2, variant: 1)
+    assert_select "input[type=checkbox][value=UKN][checked]"
+
+    get foods_menu_menu_items_path(@menu, q: "ябл")
+    assert_select "p", "Нічого не знайдено."
+  end
+
   test "foods keeps the selected food first and checked" do
     get foods_menu_menu_items_path(@menu, q: "бан", selected: foods(:one).id)
     values = css_select("input[name='menu_item[food_id]']").map { it["value"].to_i }

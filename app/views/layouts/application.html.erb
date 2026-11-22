@@ -56,6 +56,15 @@
                     aria: { current: ("page" if menus_active) } %>
             </li>
           </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <%= link_to edit_settings_path,
+                    class: ["nav-link", { active: controller_name == "settings" }],
+                    aria: { current: ("page" if controller_name == "settings") } do %>
+                <i class="bi bi-gear" aria-hidden="true"></i> <%= t("nav.settings") %>
+              <% end %>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>

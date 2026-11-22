@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root "foods#index"
 
   resources :foods, only: [ :index, :show, :edit, :update ]
+  resource :settings, only: [ :edit, :update ]
   resources :nutrients, only: [ :index, :show, :edit, :update ]
   resources :menus, only: [ :index, :show, :new, :create, :edit, :update ] do
     resources :menu_items, path: "items", only: [ :new, :create, :edit, :update, :destroy ] do

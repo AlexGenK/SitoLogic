@@ -6,6 +6,7 @@
   <% end %>
 </button>
 <div class="dropdown-menu source-filter-menu">
+  <%= hidden_field_tag "sources[]", "", id: nil %>
   <% sources.each do |source| %>
     <label class="dropdown-item d-flex align-items-center gap-2">
       <%= check_box_tag "sources[]", source.code, selected.include?(source.code),
