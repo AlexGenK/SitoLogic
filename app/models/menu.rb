@@ -50,6 +50,12 @@ class Menu < ApplicationRecord
     totals.reject { |_, amount| amount.zero? }
   end
 
+  # Weight of each food in the menu as { food => grams }: the plain sum of its cells, every variant included
+  def food_amounts
+    amounts = menu_items.group(:food_id).sum(:amount)
+    Food.where(id: amounts.keys).index_with { amounts[it.id] }
+  end
+
   private
     # Не дає зменшити сітку, якщо заповнені клітинки опиняться за її межами.
     def structure_fits_items

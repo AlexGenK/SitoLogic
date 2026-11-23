@@ -23,6 +23,11 @@ module MenusHelper
     number_with_precision(value, precision: 3, significant: true, strip_insignificant_zeros: true, delimiter: " ")
   end
 
+  # Percent with at most two decimals: 100 · 12,5 · 0,04
+  def percent_share(value)
+    number_with_precision(value, precision: 2, strip_insignificant_zeros: true, delimiter: " ")
+  end
+
   # Items counted in each set of variants 1..count: variant N of every dish, or the dish's first variant
   # when it has no variant N
   def variant_choices(items, count)
@@ -128,5 +133,13 @@ module MenusHelper
         rows.map { |nutrient, *amounts| [ nutrient.display_name, nutrient.unit_ukr.to_s, *amounts.map { nutrient_sum(it) } ] }
       ]
     end
+  end
+
+  # Foods of the menu report: [[food, grams, percent of the menu's weight]], by percent ascending, then by name
+  def menu_report_foods(menu)
+    amounts = menu.food_amounts
+    total = amounts.values.sum(0)
+    amounts.map { |food, amount| [ food, amount, amount * 100 / total ] }
+      .sort_by { |food, _, share| [ share, food.name_ukr ] }
   end
 end

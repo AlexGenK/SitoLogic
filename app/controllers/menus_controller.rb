@@ -37,18 +37,12 @@ class MenusController < ApplicationController
   def report
     @rows = helpers.menu_report_rows(@menu)
     @nutrient_groups = helpers.menu_report_nutrient_groups(@menu)
+    @foods = helpers.menu_report_foods(@menu)
 
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = MenuReportPdf.new(
-          title: t(".title"),
-          rows: @rows.map { |key, value| [ t(".#{key}"), value ] },
-          nutrients_title: t(".nutrients_title"),
-          nutrients_header: [ t("foods.nutrients.nutrient"), t(".nutrients_unit_short"), *%w[total per_day per_meal per_dish].map { t(".nutrients_#{it}") } ],
-          nutrients: helpers.menu_report_nutrient_text(@nutrient_groups)
-        )
-        send_data pdf.render, filename: "menu-#{@menu.code}-report.pdf", type: :pdf, disposition: "attachment"
+        send_data report_pdf.render, filename: "menu-#{@menu.code}-report.pdf", type: :pdf, disposition: "attachment"
       end
     end
   end
@@ -63,5 +57,24 @@ class MenusController < ApplicationController
 
     def menu_params
       params.expect(menu: [ :code, :name, :days_count, :meals_per_day, :items_per_meal, :variants_per_item ])
+    end
+
+    def report_pdf
+      MenuReportPdf.new(
+        title: t("menus.report.title"),
+        rows: @rows.map { |key, value| [ t("menus.report.#{key}"), value ] },
+        nutrients: {
+          title: t("menus.report.nutrients_title"),
+          header: [ t("foods.nutrients.nutrient"), t("menus.report.nutrients_unit_short"),
+                    *%w[total per_day per_meal per_dish].map { t("menus.report.nutrients_#{it}") } ],
+          groups: helpers.menu_report_nutrient_text(@nutrient_groups)
+        },
+        foods: {
+          title: t("menus.report.foods_title"),
+          header: %w[source code amount share name].map { t("menus.report.foods_#{it}") },
+          rows: @foods.map { |food, amount, share| [ food.source_code, food.code, helpers.grams(amount), helpers.percent_share(share), food.name_ukr ] },
+          total: [ t("menus.report.foods_total"), "", helpers.grams(@foods.sum { |_, amount, _| amount }), helpers.percent_share(100), "" ]
+        }
+      )
     end
 end

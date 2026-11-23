@@ -67,4 +67,48 @@
     <% end %>
   </div>
 
+  <div class="card mt-4">
+    <div class="card-header">
+      <h2 class="h5 mb-0"><%= t(".foods_title") %></h2>
+    </div>
+    <% if @foods.empty? %>
+      <div class="card-body">
+        <p class="text-body-secondary mb-0"><%= t(".no_foods") %></p>
+      </div>
+    <% else %>
+      <div class="table-responsive">
+        <table id="menu_foods" class="table table-sm table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col"><%= t(".foods_source") %></th>
+              <th scope="col"><%= t(".foods_code") %></th>
+              <th scope="col" class="num"><%= t(".foods_amount") %></th>
+              <th scope="col" class="num"><%= t(".foods_share") %></th>
+              <th scope="col"><%= t(".foods_name") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @foods.each do |food, amount, share| %>
+              <tr>
+                <td class="code"><%= food.source_code %></td>
+                <td class="code"><%= food.code %></td>
+                <td class="num"><%= grams(amount) %></td>
+                <td class="num"><%= percent_share(share) %></td>
+                <td><%= link_to food.name_ukr, food_path(food) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr class="fw-semibold">
+              <th scope="row" colspan="2"><%= t(".foods_total") %></th>
+              <td class="num"><%= grams(@foods.sum { |_, amount, _| amount }) %></td>
+              <td class="num"><%= percent_share(100) %></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    <% end %>
+  </div>
+
 </div>

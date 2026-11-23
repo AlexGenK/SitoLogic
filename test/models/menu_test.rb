@@ -43,4 +43,13 @@ class MenuTest < ActiveSupport::TestCase
     assert_in_delta 0.375, totals[nutrients(:protein)]
     assert_not totals.key?(nutrients(:fat))
   end
+
+  test "food_amounts sums the cells of each food" do
+    menu = menus(:one)
+    menu.menu_items.create!(day: 7, meal: 1, position: 1, variant: 2, food: foods(:two), amount: 100)
+    menu.menu_items.create!(day: 1, meal: 2, position: 1, variant: 1, food: foods(:one), amount: 50)
+    amounts = menu.food_amounts
+    assert_equal 200, amounts[foods(:one)]   # 150 + 50
+    assert_equal 100, amounts[foods(:two)]
+  end
 end
