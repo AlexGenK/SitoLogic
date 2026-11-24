@@ -39,7 +39,7 @@ class Menu < ApplicationRecord
   # without the nutrient counts as zero. Zero totals are skipped.
   def nutrient_totals
     items = menu_items.to_a
-    variants = items.group_by { [ it.day, it.meal, it.position ] }.transform_values(&:size)
+    variants = dish_variant_counts(items)
     rows = FoodNutrient.where(food_id: items.map(&:food_id).uniq).includes(:nutrient).group_by(&:food_id)
 
     totals = Hash.new(0)
@@ -57,6 +57,11 @@ class Menu < ApplicationRecord
   end
 
   private
+    # Number of variants of each dish: { [day, meal, position] => count }
+    def dish_variant_counts(items)
+      items.group_by { [ it.day, it.meal, it.position ] }.transform_values(&:size)
+    end
+
     # Не дає зменшити сітку, якщо заповнені клітинки опиняться за її межами.
     def structure_fits_items
       STRUCTURE.each do |attribute, column|

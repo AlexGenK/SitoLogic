@@ -101,7 +101,7 @@
           <tfoot>
             <tr class="fw-semibold">
               <th scope="row" colspan="2"><%= t(".foods_total") %></th>
-              <td class="num"><%= grams(@foods.sum { |_, amount, _| amount }) %></td>
+              <td class="num"><%= grams(@menu.total_amount) %></td>
               <td class="num"><%= percent_share(100) %></td>
               <td></td>
             </tr>

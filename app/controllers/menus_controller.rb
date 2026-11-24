@@ -73,7 +73,7 @@ class MenusController < ApplicationController
           title: t("menus.report.foods_title"),
           header: %w[source code amount share name].map { t("menus.report.foods_#{it}") },
           rows: @foods.map { |food, amount, share| [ food.source_code, food.code, helpers.grams(amount), helpers.percent_share(share), food.name_ukr ] },
-          total: [ t("menus.report.foods_total"), "", helpers.grams(@foods.sum { |_, amount, _| amount }), helpers.percent_share(100), "" ]
+          total: [ t("menus.report.foods_total"), "", helpers.grams(@menu.total_amount), helpers.percent_share(100), "" ]
         }
       )
     end

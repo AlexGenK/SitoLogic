@@ -155,14 +155,16 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_select ".card-body p", "Даних про нутрієнти в меню немає."
   end
 
-  test "report lists menu foods by share ascending with totals" do
+  test "report lists real food weights with shares of the variant-averaged total" do
     menus(:one).menu_items.create!(day: 7, meal: 1, position: 1, variant: 2, food: foods(:two), amount: 100)
     get report_menu_path(menus(:one))
     assert_select ".card-header h2", "Продукти меню"
     assert_equal %w[Банан Яблуко], css_select("#menu_foods tbody tr td:last-child").map { it.text.strip }
-    assert_select "#menu_foods tbody tr:first-child td", text: "40"
-    assert_select "#menu_foods tbody tr:last-child td", text: "60"
-    assert_select "#menu_foods tfoot td.num", text: "250"
+    assert_select "#menu_foods tbody tr:first-child td", text: "100"   # Банан, g
+    assert_select "#menu_foods tbody tr:first-child td", text: "80"    # Банан, %
+    assert_select "#menu_foods tbody tr:last-child td", text: "150"    # Яблуко, g
+    assert_select "#menu_foods tbody tr:last-child td", text: "120"    # Яблуко, %
+    assert_select "#menu_foods tfoot td.num", text: "125"
     assert_select "#menu_foods tfoot td.num", text: "100"
   end
 

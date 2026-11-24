@@ -135,11 +135,12 @@ module MenusHelper
     end
   end
 
-  # Foods of the menu report: [[food, grams, percent of the menu's weight]], by percent ascending, then by name
+  # Foods of the menu report: [[food, grams, percent]] by percent ascending, then by name. grams is the plain sum
+  # of the food's cells, percent is of total_amount (a dish counts as the mean of its variants), so the percents
+  # add up to more than 100 when dishes have several variants
   def menu_report_foods(menu)
-    amounts = menu.food_amounts
-    total = amounts.values.sum(0)
-    amounts.map { |food, amount| [ food, amount, amount * 100 / total ] }
+    total = menu.total_amount
+    menu.food_amounts.map { |food, amount| [ food, amount, amount * 100 / total ] }
       .sort_by { |food, _, share| [ share, food.name_ukr ] }
   end
 end
